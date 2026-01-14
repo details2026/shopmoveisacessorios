@@ -1,0 +1,1520 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shop Móveis Acessórios</title>
+  <meta name="description" content="Detalhes certos que transformam e elevam o padrão do seu móvel. Monte seu pedido e finalize pelo WhatsApp." />
+
+  <!-- ✅ Preload (melhora carregamento) -->
+  <link rel="preload" href="assets/hero-video.mp4" as="video" type="video/mp4">
+  <link rel="preload" href="assets/amb-smart.png.jpg" as="image">
+  <link rel="preload" href="assets/amb-smart-premium.png.jpg" as="image">
+  <link rel="preload" href="assets/amb-new.png.jpg" as="image">
+  <link rel="preload" href="assets/amb-log.png" as="image">
+  <link rel="preload" href="assets/amb-pe.png" as="image">
+
+  <style>
+    /* Animações */
+    @keyframes heroFade{ to{ opacity:1; transform:translateY(0); } }
+    @keyframes logoPop{ to{ opacity:1; transform:scale(1); } }
+
+    :root{
+      --bg:#ffffff;
+      --text:#0c1220;
+      --muted:#5a647a;
+      --line:#e8edf6;
+      --card:#ffffff;
+      --shadow: 0 10px 30px rgba(12,18,32,.08);
+      --shadow2: 0 12px 40px rgba(12,18,32,.12);
+      --primary:#004AAB;
+      --primary2:#0b63f6;
+      --chip:#f4f7ff;
+      --radius:18px;
+      --radius2:26px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.35;
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+
+    /* Top bar */
+    .topbar{
+      background:linear-gradient(90deg,var(--primary), #003a86);
+      color:#fff;
+      font-size:12px;
+      padding:10px 16px;
+      text-align:center;
+    }
+    .wrap{max-width:1140px; margin:0 auto; padding:0 16px;}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:.2px;
+    }
+    .brand-mark{
+      width:36px; height:36px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, #2f86ff, var(--primary));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), var(--shadow);
+    }
+    .brand small{display:block; font-weight:700; color:var(--muted); margin-top:2px}
+    nav ul{list-style:none; display:none; margin:0; padding:0; gap:18px; align-items:center;}
+    nav li a{font-weight:700; color:#223056; font-size:14px; opacity:.9}
+    nav li a:hover{color:var(--primary); opacity:1}
+
+    .header-actions{display:flex; align-items:center; gap:10px;}
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      color:#18213a;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex; align-items:center; gap:10px;
+      cursor:pointer;
+      box-shadow: 0 1px 0 rgba(12,18,32,.03);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: var(--shadow); border-color:#d7e2ff}
+    .btn-primary{
+      background: linear-gradient(180deg, var(--primary2), var(--primary));
+      color:#fff;
+      border-color:transparent;
+    }
+    .btn-primary:hover{box-shadow: var(--shadow2)}
+    .btn-ghost{
+      background: #f6f8ff;
+      border-color:#e0e8ff;
+      color:var(--primary);
+    }
+
+    .icon{ width:18px; height:18px; display:inline-block; flex:0 0 auto; }
+
+    .cart-btn{ position:relative; }
+    .badge{
+      position:absolute; top:-6px; right:-6px;
+      width:18px; height:18px;
+      border-radius:999px;
+      background:#ff3b30;
+      color:#fff;
+      font-size:11px;
+      display:grid; place-items:center;
+      font-weight:900;
+      border:2px solid #fff;
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:26px 0 14px;
+      overflow:hidden;
+      border-bottom:1px solid var(--line);
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-40px -40px auto -40px;
+      height:460px;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(47,134,255,.18), transparent 55%),
+        radial-gradient(circle at 60% 20%, rgba(0,74,171,.16), transparent 55%),
+        radial-gradient(circle at 80% 55%, rgba(0,74,171,.12), transparent 60%);
+      pointer-events:none;
+    }
+    .hero-grid{
+      position:relative;
+      display:grid;
+      gap:18px;
+      align-items:center;
+      padding:18px 0 24px;
+    }
+    .hero h1{
+      font-size:34px;
+      letter-spacing:-.8px;
+      margin:0 0 10px;
+      line-height:1.06;
+    }
+    .hero p{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-weight:650;
+      font-size:15px;
+      max-width:58ch;
+    }
+    .hero-actions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-bottom:14px;
+    }
+
+    /* HERO VIDEO BOX */
+    .hero-photo{
+      background:#000;
+      border-radius:18px;
+      height:220px;
+      overflow:hidden;
+      position:relative;
+      opacity:0;
+      transform: translateY(10px);
+      animation: heroFade .6s ease forwards;
+    }
+    .hero-video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    @media (max-width: 768px){
+      .hero-photo{ height:200px; }
+    }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:#233055;
+      font-weight:800;
+      font-size:13px;
+      box-shadow: 0 1px 0 rgba(12,18,32,.03);
+    }
+    .chip svg{width:16px; height:16px; color:var(--primary)}
+    .hero-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:14px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-card .mini{
+      display:grid; grid-template-columns: 1fr 1fr;
+      gap:10px; margin-top:12px;
+    }
+    .mini-box{
+      border:1px solid var(--line);
+      background:#fbfcff;
+      border-radius:16px;
+      padding:10px;
+    }
+    .mini-box b{display:block; font-size:13px}
+    .mini-box span{color:var(--muted); font-weight:650; font-size:12px}
+
+    /* Sections */
+    section{padding:28px 0;}
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      margin-bottom:14px;
+    }
+    .section-title h2{ margin:0; font-size:22px; letter-spacing:-.3px; }
+    .section-title p{ margin:0; color:var(--muted); font-weight:650; font-size:14px; }
+
+    /* Products */
+    .filters{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 14px; }
+    .tab{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:900;
+      color:#223056;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .tab.is-active{
+      background: #eef4ff;
+      border-color:#cfe0ff;
+      color:var(--primary);
+    }
+    .grid{ display:grid; gap:14px; }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .card-top{ padding:14px; display:grid; gap:10px; }
+    .media{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      overflow:hidden;
+      aspect-ratio: 1 / 1;
+      display:grid; place-items:center;
+
+      /* shimmer */
+      position: relative;
+      background: linear-gradient(90deg,#f2f5ff,#ffffff,#f2f5ff);
+      background-size: 200% 100%;
+      animation: shimmer 1.1s infinite linear;
+    }
+    @keyframes shimmer{
+      0%{ background-position: 0% 0; }
+      100%{ background-position: 200% 0; }
+    }
+    .media img{
+      width:100%; height:100%; object-fit:cover;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .media img.is-loaded{ opacity: 1; }
+    .media.is-loaded{
+      animation: none;
+      background: #fff;
+    }
+
+    .meta h3{margin:0; font-size:16px; letter-spacing:-.2px}
+    .meta .sub{margin:4px 0 0; color:var(--muted); font-weight:700; font-size:13px}
+
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .field label{
+      display:block;
+      font-size:12px;
+      color:#36446b;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+    select, input[type="text"], input[type="tel"], input[type="number"]{
+      width:100%;
+      padding:11px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:800;
+      color:#17203a;
+      outline:none;
+    }
+    select:focus, input:focus{
+      border-color:#b9d0ff;
+      box-shadow: 0 0 0 3px rgba(47,134,255,.18);
+    }
+
+    .pills{ display:flex; flex-wrap:wrap; gap:8px; }
+    .pill{
+      padding:9px 10px;
+      border-radius:999px;
+      background:var(--chip);
+      border:1px solid #dbe6ff;
+      color:#1f2c53;
+      font-weight:900;
+      font-size:12px;
+      cursor:pointer;
+      display:inline-flex; align-items:center; gap:8px;
+      user-select:none;
+    }
+    .pill.is-active{
+      background: #eaf2ff;
+      border-color:#bdd4ff;
+      color:var(--primary);
+    }
+    .swatch{
+      width:12px; height:12px; border-radius:999px;
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+    }
+
+    .card-actions{
+      margin-top:auto;
+      padding:14px;
+      border-top:1px solid var(--line);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn-full{flex:1 1 160px; justify-content:center}
+    .note{ padding:10px 14px 14px; color:var(--muted); font-size:12px; font-weight:700; }
+
+    /* How to buy */
+    .steps{ display:grid; gap:12px; }
+    .step{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background:#fff;
+      box-shadow: var(--shadow);
+      padding:14px;
+      display:flex; gap:12px;
+    }
+    .step .n{
+      width:34px; height:34px; border-radius:14px;
+      background:#eef4ff;
+      color:var(--primary);
+      display:grid; place-items:center;
+      font-weight:1000;
+    }
+    .step b{display:block; margin-bottom:4px}
+    .step p{margin:0; color:var(--muted); font-weight:650; font-size:13px}
+
+    /* FAQ */
+    .faq{ display:grid; gap:10px; }
+    details{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background:#fff;
+      box-shadow: var(--shadow);
+      padding:12px 14px;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      color:#17203a;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{margin:10px 0 0; color:var(--muted); font-weight:650; font-size:13px}
+
+    /* Contact */
+    .contact{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      background:#fff;
+      padding:14px;
+      display:grid; gap:10px;
+    }
+
+    /* Cart Drawer */
+    .drawer-backdrop{
+      position:fixed; inset:0;
+      background: rgba(12,18,32,.52);
+      display:none;
+      z-index:90;
+    }
+    .drawer{
+      position:fixed;
+      top:0; right:0;
+      height:100%;
+      width:min(420px, 100%);
+      background:#fff;
+      box-shadow: -20px 0 60px rgba(12,18,32,.18);
+      border-left:1px solid var(--line);
+      transform: translateX(110%);
+      transition: transform .2s ease;
+      z-index:100;
+      display:flex;
+      flex-direction:column;
+    }
+    .drawer.open{transform: translateX(0)}
+    .drawer-backdrop.open{display:block}
+    .drawer-header{
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .drawer-header b{font-size:16px}
+    .drawer-body{padding:14px; overflow:auto; display:grid; gap:12px}
+    .cart-empty{
+      border:1px dashed #d7e2ff;
+      background:#f7f9ff;
+      border-radius:18px;
+      padding:12px;
+      color:var(--muted);
+      font-weight:750;
+      font-size:13px;
+    }
+    .cart-item{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+      display:grid; gap:8px;
+      box-shadow: 0 1px 0 rgba(12,18,32,.03);
+    }
+    .cart-item-top{
+      display:flex; justify-content:space-between; gap:10px;
+      align-items:flex-start;
+    }
+    .cart-item b{display:block}
+    .cart-item .mini{color:var(--muted); font-size:12px; font-weight:700}
+    .qty{ display:flex; align-items:center; gap:6px; }
+    .qty button{
+      width:30px; height:30px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:1000;
+      cursor:pointer;
+    }
+    .qty input{
+      width:58px;
+      text-align:center;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      font-weight:900;
+    }
+    .cart-footer{
+      border-top:1px solid var(--line);
+      padding:14px;
+      display:grid; gap:10px;
+      background:#fff;
+    }
+    .small{ font-size:12px; color:var(--muted); font-weight:700; }
+
+    /* Floating WhatsApp */
+    .fab{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      z-index:60;
+    }
+    .fab button{
+      width:54px; height:54px;
+      border-radius:18px;
+      border:none;
+      cursor:pointer;
+      background: linear-gradient(180deg, #30d86b, #12b76a);
+      box-shadow: 0 16px 40px rgba(18,183,106,.25);
+      display:grid; place-items:center;
+    }
+    .fab svg{width:26px; height:26px; color:#fff}
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--line);
+      background:#0b1020;
+      color:#e8eefc;
+      padding:22px 0;
+    }
+    .footer-grid{ display:grid; gap:10px; }
+    .footer-grid a{color:#e8eefc; opacity:.9}
+    .footer-grid a:hover{opacity:1}
+
+    /* Responsive */
+    @media (min-width: 860px){
+      nav ul{display:flex;}
+      .hero-grid{
+        grid-template-columns: 1.1fr .9fr;
+        gap:18px;
+        padding:24px 0 30px;
+      }
+      .grid{ grid-template-columns: repeat(3, 1fr); }
+      .steps{ grid-template-columns: repeat(3, 1fr); }
+      .footer-grid{
+        grid-template-columns: 1.3fr 1fr 1fr;
+        align-items:start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    Atendimento no WhatsApp • Pronta entrega em medidas selecionadas • Sob encomenda e sob medida
+  </div>
+
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#inicio" aria-label="Ir para o início">
+          <span class="brand-mark"></span>
+          <span>
+            SHOP MÓVEIS<br/>
+            <small>ACESSÓRIOS</small>
+          </span>
+        </a>
+
+        <nav aria-label="Menu">
+          <ul>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#medidas">Medidas</a></li>
+            <li><a href="#como-comprar">Como comprar</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
+                <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
+                <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
+              </svg>
+            </span>
+            WhatsApp
+          </button>
+
+          <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
+              </svg>
+            </span>
+            Carrinho
+            <span class="badge" id="cartBadge" style="display:none">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="inicio" class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h1>Detalhes que transformam e elevam o padrão do seu móvel</h1>
+          <p>
+            Escolha o modelo e a cor. Monte seu pedido no carrinho (com CEP) e finalize pelo WhatsApp.
+            Para itens sob medida, peça orçamento direto.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#produtos">Ver produtos</a>
+            <button class="btn" onclick="openCart()">Finalizar pelo WhatsApp</button>
+          </div>
+
+          <div class="chips">
+            <span class="chip">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 7 10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Acabamento premium
+            </span>
+            <span class="chip">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Atendimento rápido
+            </span>
+            <span class="chip">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4Z" stroke="currentColor" stroke-width="2" />
+              </svg>
+              Pedido organizado
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-photo" aria-label="Vídeo dos puxadores">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+              <source src="assets/hero-video.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+          </div>
+
+          <div class="mini">
+            <div class="mini-box">
+              <b>Medidas selecionadas</b>
+              <span>pronta entrega</span>
+            </div>
+            <div class="mini-box">
+              <b>Sob medida</b>
+              <span>consulte no WhatsApp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PRODUTOS -->
+  <section id="produtos">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Nossos produtos</h2>
+          <p>Sem links de plataforma — o objetivo é finalizar com você no WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="filters" role="tablist" aria-label="Filtros">
+        <button class="tab is-active" data-filter="all" onclick="setFilter('all', this)">Todos</button>
+        <button class="tab" data-filter="puxadores" onclick="setFilter('puxadores', this)">Puxadores</button>
+        <button class="tab" data-filter="pes" onclick="setFilter('pes', this)">Pés</button>
+      </div>
+
+      <div class="grid" id="productGrid">
+
+        <!-- SMART SLIM -->
+        <article class="card" data-kind="puxadores" data-key="smartSlim">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-smartSlim" src="assets/amb-smart.png.jpg" alt="Smart Slim" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Smart Slim</h3>
+              <p class="sub">Cores: Cinza, Preto, Branco, Dourado e Inox</p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="slim-medida">Medida</label>
+                <select id="slim-medida">
+                  <option value="Pronta entrega (selecionada)">Pronta entrega (selecionada)</option>
+                  <option value="Sob encomenda (medida personalizada)">Sob encomenda (medida personalizada)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="slim-obs">Observação</label>
+                <input id="slim-obs" type="text" placeholder="Ex.: preciso 20cm / sob medida">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-smartSlim" data-product-key="smartSlim">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('smartSlim')">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('smartSlim')">Pedir orçamento</button>
+          </div>
+
+          <div class="note">* Slim e Premium podem ser feitos sob encomenda em medidas personalizadas.</div>
+        </article>
+
+        <!-- SMART PREMIUM -->
+        <article class="card" data-kind="puxadores" data-key="smartPremium">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-smartPremium" src="assets/amb-smart-premium.png.jpg" alt="Smart Premium" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Smart Premium</h3>
+              <p class="sub">Cores: Inox, Dourado, Preto, Cobre, Cinza e Branco</p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="premium-medida">Medida</label>
+                <select id="premium-medida">
+                  <option value="Pronta entrega (selecionada)">Pronta entrega (selecionada)</option>
+                  <option value="Sob encomenda (medida personalizada)">Sob encomenda (medida personalizada)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="premium-obs">Observação</label>
+                <input id="premium-obs" type="text" placeholder="Ex.: preciso 18,5cm / sob medida">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-smartPremium" data-product-key="smartPremium">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('smartPremium')">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('smartPremium')">Pedir orçamento</button>
+          </div>
+
+          <div class="note">* Inox tem acabamento diferenciado (foto real). Consulte se quiser sob encomenda.</div>
+        </article>
+
+        <!-- NEW -->
+        <article class="card" data-kind="puxadores" data-key="new">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-new" src="assets/amb-new.jpg" alt="New" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>New</h3>
+              <p class="sub">Tamanhos: 14cm ou 5cm • (sem inox)</p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="new-medida">Tamanho</label>
+                <select id="new-medida">
+                  <option value="14cm" selected>14cm</option>
+                  <option value="5cm">5cm</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="new-obs">Observação</label>
+                <input id="new-obs" type="text" placeholder="Ex.: quantidade grande / projeto">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-new" data-product-key="new">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('new')">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('new')">Pedir orçamento</button>
+          </div>
+
+          <div class="note">* Se você tiver fotos do New 5cm por cor, dá pra trocar imagem também pelo tamanho.</div>
+        </article>
+
+        <!-- LOG -->
+        <article class="card" data-kind="puxadores" data-key="log">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-log" src="assets/amb-log.png" alt="LOG 20cm" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Log</h3>
+              <p class="sub">Comprimento: 20cm • Para chapa 15mm ou 18mm</p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="log-chapa">Chapa</label>
+                <select id="log-chapa">
+                  <option value="18mm" selected>18mm</option>
+                  <option value="15mm">15mm</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="log-obs">Observação</label>
+                <input id="log-obs" type="text" placeholder="Ex.: precisa combinar com puxadores">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-log" data-product-key="log">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('log')">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('log')">Pedir orçamento</button>
+          </div>
+
+          <div class="note">* Log é 20cm. Você escolhe se é para chapa 15mm ou 18mm.</div>
+        </article>
+
+        <!-- PÉ DE ALUMÍNIO -->
+        <article class="card" data-kind="pes" data-key="peAluminio">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Pé de Alumínio</h3>
+              <p class="sub">Sob medida • Com regulagem • Ideal para gabinetes e móveis</p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="pe-altura">Altura desejada</label>
+                <input id="pe-altura" type="text" placeholder="Ex.: 20cm / 15cm / sob medida">
+              </div>
+              <div class="field">
+                <label for="pe-obs">Uso do móvel</label>
+                <input id="pe-obs" type="text" placeholder="Ex.: gabinete pia / balcão">
+              </div>
+            </div>
+
+            <div class="note">* Para pés, normalmente é orçamento direto (altura sob medida).</div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="quoteNow('peAluminio')">Pedir orçamento pelo WhatsApp</button>
+            <button class="btn btn-full" onclick="openWhatsApp('Olá! Quero saber mais sobre o Pé de Alumínio (sob medida).')">Falar no WhatsApp</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDIDAS -->
+  <section id="medidas">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Medidas & Sob medida</h2>
+          <p>Para não ter erro: o que é fixo e o que personaliza.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <div>
+            <b>Smart Slim / Smart Premium</b>
+            <p>Tem medidas selecionadas à pronta entrega e também pode ser feito sob encomenda (medida personalizada).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <div>
+            <b>New</b>
+            <p>Medidas fixas: 14cm ou 5cm. (Cores: preto, dourado, cobre, cinza e branco).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <div>
+            <b>Log</b>
+            <p>Comprimento fixo: 20cm. Você escolhe se é para chapa de 15mm ou 18mm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO COMPRAR -->
+  <section id="como-comprar">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Como comprar</h2>
+          <p>Você monta o pedido e finaliza com a gente no WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <div>
+            <b>Escolha modelo, cor e opção</b>
+            <p>Selecione cor e detalhes (tamanho/chapa/observação) em cada produto.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <div>
+            <b>Adicione no carrinho</b>
+            <p>No carrinho você informa o CEP e revisa tudo antes de enviar.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <div>
+            <b>Finalize pelo WhatsApp</b>
+            <p>Enviamos confirmação e orientamos o pagamento diretamente no WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Dúvidas frequentes</h2>
+          <p>Rápido e direto.</p>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Como faço para finalizar a compra?</summary>
+          <p>Você monta o pedido no carrinho, informa o CEP e clica em “Finalizar pelo WhatsApp”. A mensagem vai organizada com tudo.</p>
+        </details>
+
+        <details>
+          <summary>Como faço para ver mais fotos dos produtos?</summary>
+          <p>Envie uma mensagem no WhatsApp pedindo fotos adicionais do produto desejado.</p>
+        </details>
+
+        <details>
+          <summary>O puxador inox tem a borda pintada?</summary>
+          <p>Não, a borda do puxador inox é em acabamento de alumínio.</p>
+        </details>
+
+        <details>
+          <summary>O puxador inox é escovado?</summary>
+          <p>Sim, o puxador inox possui acabamento escovado, proporcionando um visual elegante e moderno.</p>
+        </details>
+
+        <details>
+          <summary>Como faço para comprar em grande quantidade?</summary>
+          <p>Envie uma mensagem no WhatsApp com a quantidade desejada e o modelo. Faremos um orçamento personalizado para você.</p>
+        </details>
+
+        <details>
+          <summary>Vocês fazem sob medida?</summary>
+          <p>Sim! Smart Slim e Smart Premium podem ser sob encomenda em medidas personalizadas. Pés também podem ser sob medida.</p>
+        </details>
+
+        <details>
+          <summary>Como faço para ver fotos do LOG se meu dispositivo não está carregando?</summary>
+          <p>Clique nas cores disponíveis para trocar a imagem do produto e ver o LOG em diferentes acabamentos.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Contato</h2>
+          <p>Atendimento direto no WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="contact">
+        <b>WhatsApp</b>
+        <div class="small">Clique para falar com a gente:</div>
+        <button class="btn btn-primary" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
+              <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
+              <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
+            </svg>
+          </span>
+          Falar no WhatsApp
+        </button>
+
+        <div class="small">
+          Dica: use “Pedir orçamento” nos itens sob medida, ou “Adicionar ao carrinho” para montar o pedido.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM + FOOTER -->
+  <section class="instagram-cta">
+    <div class="wrap">
+      <div class="contact" style="gap:12px;">
+        <div>
+          <h3 style="margin:0; font-size:18px;">Siga a gente no Instagram</h3>
+          <p style="margin:6px 0 0; color:var(--muted); font-weight:650;">
+            Veja inspirações, lançamentos e aplicações reais dos nossos <strong>puxadores e pés para móveis</strong>.
+          </p>
+        </div>
+        <a
+          href="https://www.instagram.com/shop_moveis_acessorios/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+          style="justify-content:center;"
+        >
+          @shop_moveis_acessorios
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <b style="font-size:16px;">SHOP MÓVEIS ACESSÓRIOS</b>
+          <div style="margin-top:8px; color:#cdd8f3; font-weight:650; font-size:13px;">
+            Puxadores e pés para móveis • Finalização via WhatsApp
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:900; margin-bottom:8px;">Menu</div>
+          <div style="display:grid; gap:6px; font-weight:750; font-size:13px;">
+            <a href="#produtos">Produtos</a>
+            <a href="#medidas">Medidas</a>
+            <a href="#como-comprar">Como comprar</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contato">Contato</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:900; margin-bottom:8px;">Contato</div>
+          <div style="display:grid; gap:6px; font-weight:750; font-size:13px;">
+            <a href="javascript:void(0)" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">WhatsApp</a>
+            <span style="color:#cdd8f3;">© <span id="year"></span> • Todos os direitos reservados.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeCart()" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" aria-label="Carrinho">
+    <div class="drawer-header">
+      <b>Seu carrinho</b>
+      <button class="btn" onclick="closeCart()">Fechar</button>
+    </div>
+
+    <div class="drawer-body">
+      <div id="cartList"></div>
+
+      <div class="field">
+        <label for="cep">CEP (obrigatório antes de enviar)</label>
+        <input id="cep" type="text" inputmode="numeric" placeholder="Ex.: 87000-000" maxlength="9" />
+        <div class="small">* O CEP vai junto na mensagem do WhatsApp.</div>
+      </div>
+
+      <div class="small" style="border:1px solid var(--line); border-radius:18px; padding:12px; background:#fbfcff;">
+        Ao clicar em <b>Finalizar pelo WhatsApp</b>, você será direcionado para uma mensagem automática com o pedido organizado.
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <button class="btn btn-primary" onclick="checkoutWhatsApp()">Finalizar pelo WhatsApp</button>
+      <button class="btn" onclick="clearCart()">Limpar carrinho</button>
+      <div class="small">Pagamento e confirmação são finalizados no WhatsApp.</div>
+    </div>
+  </aside>
+
+  <!-- Floating WhatsApp -->
+  <div class="fab" aria-label="Atalho WhatsApp">
+    <button onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
+        <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    // ====== CONFIG (WHATSAPP) ======
+    const WHATSAPP_PHONE = "5543984145858";
+    const WHATSAPP_BASE  = "https://api.whatsapp.com/send";
+
+    // ✅ CORRIGIDO: objeto sem quebrar
+    const productImages = {
+      smartSlim: {
+        preto:   "assets/smartpr.png.jpg",
+        cinza:   "assets/smartcz.png.jpg",
+        branco:  "assets/smartbr.png.png",
+        dourado: "assets/smartdr.png.jpg",
+        inox:    "assets/smartino.png.jpg"
+      },
+      smartPremium: {
+        preto:   "assets/smart-premiumpr.png.jpeg",
+        inox:    "assets/smart-premiumino.png.png",
+        dourado: "assets/smart-premiumdr.png.png",
+        cobre:   "assets/smart-premiumcbr.png.png",
+        cinza:   "assets/smart-premiumcz.png.png",
+        branco:  "assets/smart-premiumbr.png.png"
+      },
+      new: {
+        preto:   "assets/newpr.png.png",
+        dourado: "assets/newdr.png.png",
+        cobre:   "assets/newcbr.png.png",
+        cinza:   "assets/newcz.png.png",
+        branco:  "assets/newbr.png.png"
+      },
+      log: {
+        preto:   "assets/logpr.png.jpg",
+        cinza:   "assets/log.png.jpg",
+        cobre:   "assets/logcbr.png.jpg",
+        dourado: "assets/logdr.png.jpg",
+        branco:  "assets/logbr.png.jpg"
+      },
+      peAluminio: {
+        branco: "assets/pe-aluminio.png.png"
+      }
+    };
+
+    const productNames = {
+      smartSlim: "Smart Slim",
+      smartPremium: "Smart Premium",
+      new: "New",
+      log: "Log",
+      peAluminio: "Pé de Alumínio"
+    };
+
+    // ====== HELPERS ======
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    function normalizeCep(v){
+      v = (v||"").replace(/\D/g,"").slice(0,8);
+      if(v.length > 5) v = v.slice(0,5) + "-" + v.slice(5);
+      return v;
+    }
+
+    function openWhatsApp(message){
+      const text = encodeURIComponent(message || "");
+      const url = `${WHATSAPP_BASE}?phone=${WHATSAPP_PHONE}&text=${text}`;
+      window.open(url, "_blank");
+    }
+
+    function getSelectedColor(productKey){
+      const group = document.querySelector(`.card[data-key="${productKey}"] .pills[data-product-key="${productKey}"]`);
+      const active = group ? group.querySelector(".pill.is-active") : null;
+      return active ? active.dataset.color : "preto";
+    }
+
+    function getProductOptions(productKey){
+      const opts = {};
+
+      if(productKey === "smartSlim"){
+        opts.medida = $("#slim-medida")?.value || "";
+        opts.obs = $("#slim-obs")?.value?.trim() || "";
+      }
+      if(productKey === "smartPremium"){
+        opts.medida = $("#premium-medida")?.value || "";
+        opts.obs = $("#premium-obs")?.value?.trim() || "";
+      }
+      if(productKey === "new"){
+        opts.tamanho = $("#new-medida")?.value || "14cm";
+        opts.obs = $("#new-obs")?.value?.trim() || "";
+      }
+      if(productKey === "log"){
+        opts.chapa = $("#log-chapa")?.value || "18mm";
+        opts.obs = $("#log-obs")?.value?.trim() || "";
+      }
+      if(productKey === "peAluminio"){
+        opts.altura = $("#pe-altura")?.value?.trim() || "";
+        opts.uso = $("#pe-obs")?.value?.trim() || "";
+      }
+
+      return opts;
+    }
+
+    function formatOptions(productKey, color, opts){
+      const parts = [];
+      if(color) parts.push(`Cor: ${color}`);
+      if(productKey === "smartSlim" || productKey === "smartPremium"){
+        if(opts.medida) parts.push(`Medida: ${opts.medida}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "new"){
+        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "log"){
+        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "peAluminio"){
+        if(opts.altura) parts.push(`Altura: ${opts.altura}`);
+        if(opts.uso) parts.push(`Uso: ${opts.uso}`);
+      }
+      return parts.join(" • ");
+    }
+
+    // ====== COLOR SWITCH (CORRIGIDO) ======
+function setupColorPills(){
+  $$(".pills").forEach(group=>{
+    const imgId = group.dataset.targetImg;
+    const productKey = group.dataset.productKey;
+
+    group.addEventListener("click", (e)=>{
+      const btn = e.target.closest(".pill");
+      if(!btn) return;
+
+      group.querySelectorAll(".pill").forEach(b=>b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+
+      const color = btn.dataset.color;
+      const img = document.getElementById(imgId);
+      const src = productImages?.[productKey]?.[color];
+
+      if(!img || !src) return;
+
+      const box = img.closest(".media");
+
+      // liga shimmer e esconde a imagem até carregar
+      img.classList.remove("is-loaded");
+      box && box.classList.remove("is-loaded");
+
+      // reativa o load sempre que trocar o src
+      img.onload = () => {
+        img.classList.add("is-loaded");
+        box && box.classList.add("is-loaded");
+      };
+
+      img.onerror = () => {
+        console.error("ERRO ao carregar imagem:", src);
+        box && box.classList.add("is-loaded");
+
+        // fallback: volta pra ambientada
+        const ambientFallback = img.getAttribute("data-ambient-src");
+        if(ambientFallback) img.src = ambientFallback;
+      };
+
+      img.src = src;
+    });
+  });
+}
+
+// ====== FX DE LOAD (CORRIGIDO) ======
+function setupImageLoadingFX(){
+  document.querySelectorAll(".media img").forEach(img=>{
+    const box = img.closest(".media");
+
+    // guarda a ambientada (pra fallback)
+    if(!img.getAttribute("data-ambient-src")){
+      img.setAttribute("data-ambient-src", img.getAttribute("src") || "");
+    }
+
+    const done = () => {
+      img.classList.add("is-loaded");
+      box && box.classList.add("is-loaded");
+    };
+
+    img.onload = done;
+
+    img.onerror = () => {
+      console.error("ERRO ao carregar imagem inicial:", img.src);
+      box && box.classList.add("is-loaded");
+    };
+
+    if (img.complete && img.naturalWidth > 0) done();
+  });
+}
+    // ====== INIT ======
+    document.addEventListener("DOMContentLoaded", ()=>{ 
+      setupColorPills();
+      setupImageLoadingFX();
+      loadCart();
+      $$("#year").forEach(el=>el.textContent = new Date().getFullYear());
+    });
+   
+
+    // ====== FILTER ======
+    function setFilter(kind, btn){
+      $$(".tab").forEach(t=>t.classList.remove("is-active"));
+      btn.classList.add("is-active");
+
+      $$("#productGrid .card").forEach(card=>{
+        if(kind === "all") { card.style.display = ""; return; }
+        const k = card.dataset.kind;
+        card.style.display = (k === kind) ? "" : "none";
+      });
+    }
+
+    // ====== CART ======
+    const CART_KEY = "shopmoveis_cart_v1";
+    let cart = [];
+
+    function loadCart(){
+      try{
+        cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      }catch{ cart = []; }
+      updateCartUI();
+    }
+
+    function saveCart(){
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function addToCart(productKey){
+      const color = getSelectedColor(productKey);
+      const opts = getProductOptions(productKey);
+
+      const item = {
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+        productKey,
+        name: productNames[productKey],
+        color,
+        options: opts,
+        qty: 1
+      };
+      cart.push(item);
+      saveCart();
+      openCart();
+    }
+
+    function removeFromCart(id){
+      cart = cart.filter(i=>i.id !== id);
+      saveCart();
+    }
+
+    function setQty(id, qty){
+      qty = Math.max(1, Math.min(999, Number(qty)||1));
+      cart = cart.map(i => i.id === id ? {...i, qty} : i);
+      saveCart();
+    }
+
+    function clearCart(){
+      cart = [];
+      saveCart();
+    }
+
+    function updateCartUI(){
+      const badge = $("#cartBadge");
+      if(badge){
+        const total = cart.reduce((acc,i)=>acc + i.qty, 0);
+        badge.textContent = total;
+        badge.style.display = total > 0 ? "grid" : "none";
+      }
+
+      const list = $("#cartList");
+      if(!list) return;
+
+      list.innerHTML = "";
+      if(cart.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "cart-empty";
+        empty.textContent = "Seu carrinho está vazio. Adicione produtos para finalizar pelo WhatsApp.";
+        list.appendChild(empty);
+        return;
+      }
+
+      cart.forEach(item=>{
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        const optionsText = formatOptions(item.productKey, item.color, item.options);
+
+        div.innerHTML = `
+          <div class="cart-item-top">
+            <div>
+              <b>${item.name}</b>
+              <div class="mini">${optionsText || ""}</div>
+            </div>
+            <button class="btn" style="padding:8px 10px" onclick="removeFromCart('${item.id}')">Remover</button>
+          </div>
+
+          <div class="qty">
+            <button onclick="setQty('${item.id}', ${item.qty - 1})" aria-label="Diminuir">−</button>
+            <input type="number" min="1" value="${item.qty}" oninput="setQty('${item.id}', this.value)" aria-label="Quantidade"/>
+            <button onclick="setQty('${item.id}', ${item.qty + 1})" aria-label="Aumentar">+</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function openCart(){
+      $("#drawerBackdrop")?.classList.add("open");
+      $("#drawer")?.classList.add("open");
+    }
+    function closeCart(){
+      $("#drawerBackdrop")?.classList.remove("open");
+      $("#drawer")?.classList.remove("open");
+    }
+
+    function buildWhatsAppOrderMessage(cep){
+      const lines = [];
+      lines.push("Olá! Quero finalizar meu pedido pelo site.");
+      lines.push("");
+      lines.push("✅ Itens do pedido:");
+      cart.forEach((item, idx)=>{
+        const opt = formatOptions(item.productKey, item.color, item.options);
+        lines.push(`${idx+1}) ${item.qty}x ${item.name}${opt ? " — " + opt : ""}`);
+      });
+      lines.push("");
+      lines.push(`📦 CEP para entrega: ${cep}`);
+      lines.push("");
+      lines.push("Pode me confirmar valores e formas de pagamento? Obrigado!");
+      return lines.join("\n");
+    }
+
+    function checkoutWhatsApp(){
+      const cepInput = $("#cep");
+      const cep = normalizeCep(cepInput?.value || "");
+      if(cepInput) cepInput.value = cep;
+
+      if(cart.length === 0){
+        alert("Seu carrinho está vazio.");
+        return;
+      }
+      if(cep.length < 9){
+        alert("Por favor, informe um CEP válido antes de enviar para o WhatsApp.");
+        return;
+      }
+
+      const msg = buildWhatsAppOrderMessage(cep);
+      openWhatsApp(msg);
+    }
+
+    // ====== QUICK QUOTE (sem carrinho) ======
+    function quoteNow(productKey){
+      const color = getSelectedColor(productKey);
+      const opts = getProductOptions(productKey);
+
+      let msg = `Olá! Gostaria de um orçamento para ${productNames[productKey]}.`;
+
+      if(productKey === "peAluminio"){
+        msg += `\n\nAltura desejada: ${opts.altura || "(informar)"}`
+            +  `\nQuantidade: (informar)`
+            +  `\nUso do móvel: ${opts.uso || "(informar)"}`
+            +  `\nCEP para entrega: (informar)`;
+        openWhatsApp(msg);
+        return;
+      }
+
+      msg += `\n\nCor: ${color}`;
+      if(productKey === "smartSlim" || productKey === "smartPremium"){
+        msg += `\nMedida: ${opts.medida || "(informar)"}`
+            +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
+      }
+      if(productKey === "new"){
+        msg += `\nTamanho: ${opts.tamanho || "14cm"}`
+            +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
+      }
+      if(productKey === "log"){
+        msg += `\nChapa: ${opts.chapa || "18mm"}`
+            +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
+      }
+
+      msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
+      openWhatsApp(msg);
+    }
+
+
+    // ====== INIT ======
+    (function init(){
+      $("#year") && ($("#year").textContent = new Date().getFullYear());
+
+      const cep = $("#cep");
+      if(cep){
+        cep.addEventListener("input", ()=>{ cep.value = normalizeCep(cep.value); });
+      }
+
+      setupColorPills();
+      loadCart();
+      setupImageLoadingFX();
+    })();
+  </script>
+</body>
+</html>
