@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -14,6 +13,8 @@
   <link rel="preload" href="assets/amb-new.png.jpg" as="image">
   <link rel="preload" href="assets/amb-log.png" as="image">
   <link rel="preload" href="assets/amb-pe.png" as="image">
+  <!-- ✅ Aura (LANÇAMENTO) -->
+  <link rel="preload" href="assets/aura-amb.jpeg" as="image">
 
   <style>
     /* Animações */
@@ -352,6 +353,33 @@
     .btn-full{flex:1 1 160px; justify-content:center}
     .note{ padding:10px 14px 14px; color:var(--muted); font-size:12px; font-weight:700; }
 
+    /* ====== DESTAQUE LANÇAMENTO (só para o Aura) ====== */
+    .card.is-launch{
+      border-color:#cfe0ff;
+      box-shadow: 0 16px 55px rgba(0,74,171,.16);
+    }
+    .card.is-launch .card-top{ position:relative; }
+    .card.is-launch .card-top::before{
+      content:"LANÇAMENTO";
+      position:absolute;
+      top:12px; left:12px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(180deg, var(--primary2), var(--primary));
+      color:#fff;
+      font-weight:1000;
+      font-size:11px;
+      letter-spacing:.4px;
+      box-shadow: 0 14px 35px rgba(0,74,171,.25);
+      z-index:2;
+    }
+    .card.is-launch .media{ border-color:#cfe0ff; }
+    .card.is-launch .meta h3{ font-size:17px; }
+    .card.is-launch .note{
+      background:#f7faff;
+      border-top:1px solid #e3edff;
+    }
+
     /* How to buy */
     .steps{ display:grid; gap:12px; }
     .step{
@@ -655,6 +683,36 @@
       </div>
 
       <div class="grid" id="productGrid">
+
+        <!-- AURA (LANÇAMENTO) -->
+        <article class="card is-launch" data-kind="puxadores" data-key="aura">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-aura" src="assets/aura-amb.jpeg" alt="Puxador Aura" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Puxador Aura</h3>
+              <p class="sub">Cores: Inox, Preto e Cinza</p>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-aura" data-product-key="aura">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('aura')">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('aura')">Pedir orçamento</button>
+          </div>
+
+          <div class="note">Seu grande diferencial está no curvo contínuo de 179 graus, que acompanha perfeitamente a borda do móvel, criando um visual elegante, limpo e moderno.</div>
+        </article>
 
         <!-- SMART SLIM -->
         <article class="card" data-kind="puxadores" data-key="smartSlim">
@@ -1127,6 +1185,11 @@
 
     // ✅ CORRIGIDO: objeto sem quebrar
     const productImages = {
+      aura: {
+        inox:  "assets/aura-inox.png",
+        preto: "assets/aura-preto.png",
+        cinza: "assets/aura-cinza.png"
+      },
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1162,6 +1225,7 @@
     };
 
     const productNames = {
+      aura: "Puxador Aura",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
       new: "New",
