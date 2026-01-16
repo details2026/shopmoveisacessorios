@@ -16,7 +16,52 @@
   <!-- ✅ Aura (LANÇAMENTO) -->
   <link rel="preload" href="assets/aura-amb.jpeg" as="image">
 
+  <style>   
+  /* ===== MENU LATERAL (SEM CONFLITAR COM TOPBAR) ===== */
+.menuOverlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:opacity .18s ease;
+  z-index:95;
+}
+.menuOverlay.open{ opacity:1; pointer-events:auto; }
+
+.sideMenu{
+  position:fixed; top:0; right:0; height:100vh; width:min(360px, 88vw);
+  background:#fff; box-shadow: var(--shadow2);
+  transform: translateX(102%); transition: transform .22s ease;
+  z-index:96;
+  display:flex; flex-direction:column;
+}
+.sideMenu.open{ transform: translateX(0); }
+.sideMenu-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; border-bottom:1px solid var(--line);
+}
+.sideMenu-title{ font-weight:900; }
+.closeBtn{
+  border:1px solid var(--line); background:#fff; border-radius:10px;
+  padding:8px 10px; cursor:pointer;
+}
+.menuList{ padding:12px; display:flex; flex-direction:column; gap:8px; }
+.menuItem{
+  width:100%; text-align:left; cursor:pointer;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-weight:900;
+}
+.menuItem:hover{ border-color:#cfd9ee; }
+.menuItem.primary{
+  background: linear-gradient(180deg, var(--primary2), var(--primary));
+  color:#fff;
+  border-color:transparent;
+}
+.menuSep{ height:1px; background:var(--line); margin:6px 0; }
+.menuGroupTitle{ font-size:12px; color:var(--muted); margin:4px 2px 0; }
+  </style>
   <style>
+
     /* Animações */
     @keyframes heroFade{ to{ opacity:1; transform:translateY(0); } }
     @keyframes logoPop{ to{ opacity:1; transform:scale(1); } }
@@ -620,9 +665,16 @@
 </head>
 
 <body>
-  <div class="topbar">
-    Atendimento no WhatsApp • Pronta entrega em medidas selecionadas • Sob encomenda e sob medida
-  </div>
+
+<style>
+  .hint{
+    color:#5a647a; font-size:13px;
+    border:1px dashed #e8edf6; padding:10px 12px; border-radius:12px;
+    background:#fbfcff;
+  }
+</style>
+  <!-- HEADER -->
+  <!-- TOPO -->
 
   <header>
     <div class="wrap">
@@ -646,30 +698,62 @@
         </nav>
 
         <div class="header-actions">
-          <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
-                <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
-                <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
-              </svg>
-            </span>
-            WhatsApp
-          </button>
+  <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
+    <span class="icon" aria-hidden="true">
+      <!-- (seu svg do WhatsApp fica igual) -->
+      <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
+        <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
+        <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
+      </svg>
+    </span>
+    WhatsApp
+  </button>
 
-          <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
-              </svg>
-            </span>
-            Carrinho
-            <span class="badge" id="cartBadge" style="display:none">0</span>
-          </button>
-        </div>
+  <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
+    <span class="icon" aria-hidden="true">
+      <!-- (seu svg do carrinho fica igual) -->
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+        <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
+      </svg>
+    </span>
+    Carrinho
+    <span class="badge" id="cartBadge" style="display:none">0</span>
+  </button>
+
+  <!-- ✅ BOTAO DO MENU -->
+  <button class="btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" title="Menu">
+    ⋯
+  </button>
+</div>
       </div>
     </div>
   </header>
+
+<!-- MENU LATERAL (overlay + painel) -->
+<div class="menuOverlay" id="menuOverlay" aria-hidden="true"></div>
+
+<aside class="sideMenu" id="sideMenu" aria-label="Menu lateral" aria-hidden="true">
+  <div class="sideMenu-head">
+    <div class="sideMenu-title">Menu</div>
+    <button class="closeBtn" id="closeBtn" type="button">Fechar</button>
+  </div>
+
+  <div class="menuList">
+    <div class="menuGroupTitle">Ir para</div>
+    <button class="menuItem" type="button" data-target="#inicio">Início</button>
+    <button class="menuItem" type="button" data-target="#produtos">Produtos</button>
+    <button class="menuItem" type="button" data-target="#medidas">Medidas</button>
+    <button class="menuItem" type="button" data-target="#como-comprar">Como comprar</button>
+    <button class="menuItem" type="button" data-target="#faq">FAQ</button>
+    <button class="menuItem" type="button" data-target="#contato">Contato</button>
+
+    <div class="menuSep"></div>
+
+    <button class="menuItem primary" type="button" onclick="openCart()">Finalizar (Carrinho)</button>
+    <button class="menuItem" type="button" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">Falar no WhatsApp</button>
+  </div>
+</aside>
 
   <!-- HERO -->
   <main id="inicio" class="hero">
@@ -822,26 +906,29 @@
       </div>
     </div>
 
-    <!-- imagem técnica -->
-    <div class="media media-contain" style="margin-top:10px;">
-      <button
-  id="btn-luna-med"
-  type="button"
-  class="btn btn-full"
-  onclick="toggleLunaMedidas()"
->
-  Ver medidas
-</button>
+    <!-- Medidas do Luna (só abre ao clicar) -->
+<div style="margin-top:10px;">
+  <button
+    id="btn-luna-med"
+    type="button"
+    class="btn btn-full"
+    onclick="toggleLunaMedidas()"
+  >
+    Ver medidas
+  </button>
 
-<div id="luna-medidas" hidden style="margin-top:10px;">
-  <div class="media media-contain">
-    <img
-      id="img-luna-md"
-      data-src="assets/luna-md.png"
-      alt="Medidas do Puxador Luna"
-    >
+  <div id="luna-medidas" hidden style="margin-top:10px;">
+    <div class="media media-contain">
+      <img
+        id="img-luna-md"
+        data-src="assets/luna-md.png"
+        alt="Medidas do Puxador Luna"
+        loading="lazy"
+      >
+    </div>
   </div>
 </div>
+  </div>
 
   <div class="card-actions">
     <button class="btn btn-full btn-primary" onclick="addToCart('luna')">
@@ -860,6 +947,56 @@
     • Resistência 150h saltspray (ajuda a impedir oxidação em regiões litorâneas)
   </div>
 </article>
+
+<!-- OTTO -->
+<article class="card" data-kind="puxadores" data-key="otto">
+  <div class="card-top">
+    <div class="media">
+      <img id="img-otto" src="assets/otto-amb.png" alt="Puxador Otto" loading="lazy">
+    </div>
+
+    <div class="meta">
+      <h3>Puxador Otto</h3>
+      <p class="sub">Zamac • Furação 32mm • Rosca M4</p>
+    </div>
+
+    <div class="field">
+      <label>Cores</label>
+      <div class="pills" data-target-img="img-otto" data-product-key="otto">
+        <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Ouro</button>
+        <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
+        <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
+        <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+        <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
+        <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tégola</button>
+      </div>
+    </div>
+
+    <!-- Medidas: só aparece quando clicar -->
+    <details style="border:1px solid var(--line); border-radius:18px; padding:10px 12px; background:#fbfcff;">
+      <summary style="cursor:pointer; font-weight:900; color:#17203a; list-style:none;">
+        Ver medidas
+      </summary>
+      <div style="margin-top:10px;">
+        <img src="assets/otto-med.png" alt="Medidas do Puxador Otto" style="width:100%; height:auto; border-radius:14px; border:1px solid var(--line);">
+      </div>
+    </details>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn btn-full btn-primary" onclick="addToCart('otto')">Adicionar ao carrinho</button>
+    <button class="btn btn-full" onclick="quoteNow('otto')">Pedir orçamento</button>
+  </div>
+
+  <div class="note">
+    <b>Características dos puxadores</b><br>
+    • Pintura 100% epóxi.<br>
+    • Material zamac, furação padrão 32mm e rosca M4.<br>
+    • Durabilidade no acabamento.<br>
+    • Resistência de 150h saltspray (impede a oxidação em regiões litorâneas).
+  </div>
+</article>
+
 
         <!-- SMART SLIM -->
         <article class="card" data-kind="puxadores" data-key="smartSlim">
@@ -1368,6 +1505,15 @@
   grafite:   "assets/luna-grafite.png",
   tegola:    "assets/luna-tegola.png"
 },
+otto: {
+  amb:       "assets/otto-amb.png",
+  ouro:      "assets/otto-oro.png",
+  nebbio:    "assets/otto-nebbio.png",
+  capuccino: "assets/otto-capuccino.png",
+  preto:     "assets/otto-preto.png",
+  grafite:   "assets/otto-grafite.png",
+  tegola:    "assets/otto-tegola.png"
+},
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1405,6 +1551,7 @@
     const productNames = {
       aura: "Puxador Aura",
       luna: "Puxador Luna",
+      otto: "Puxador Otto",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
       new: "New",
@@ -1570,10 +1717,25 @@ function setupCarousels(){
       group.querySelectorAll(".thumb").forEach(b=>b.classList.remove("is-active"));
       btn.classList.add("is-active");
 
+      const box = img.closest(".media");
+      img.classList.remove("is-loaded");
+      box && box.classList.remove("is-loaded");
+
+      img.onload = () => {
+        img.classList.add("is-loaded");
+        box && box.classList.add("is-loaded");
+      };
+
+      img.onerror = () => {
+        console.error("ERRO ao carregar imagem do carrossel:", src);
+        box && box.classList.add("is-loaded");
+      };
+
       img.src = src;
     });
   });
 }
+// ====== LUNA MEDIDAS (CORRIGIDO) ======
 function toggleLunaMedidas(){
   const box = document.getElementById("luna-medidas");
   const img = document.getElementById("img-luna-md");
@@ -1611,11 +1773,17 @@ function toggleLunaMedidas(){
    document.addEventListener("DOMContentLoaded", ()=>{
   setupColorPills();
   setupImageLoadingFX();
-  setupCarousels(); // ✅ ESSENCIAL
+  setupCarousels();
   loadCart();
-  $$("#year").forEach(el=>el.textContent = new Date().getFullYear());
-});
 
+  const year = document.getElementById("year");
+  if(year) year.textContent = new Date().getFullYear();
+
+  const cep = document.getElementById("cep");
+  if(cep){
+    cep.addEventListener("input", ()=>{ cep.value = normalizeCep(cep.value); });
+  }
+});
 
     // ====== FILTER ======
     function setFilter(kind, btn){
@@ -1798,22 +1966,75 @@ function toggleLunaMedidas(){
       msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
       openWhatsApp(msg);
     }
+// ====== MENU LATERAL (CORRIGIDO) ======
+(function setupSideMenu(){
+  const menuBtn  = document.getElementById("menuBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const overlay  = document.getElementById("menuOverlay");
+  const sideMenu = document.getElementById("sideMenu");
 
+  // Se não existir, não quebra o site
+  if(!menuBtn || !overlay || !sideMenu) return;
 
-    // ====== INIT ======
-    (function init(){
-      $("#year") && ($("#year").textContent = new Date().getFullYear());
+  function openMenu(){
+    sideMenu.classList.add("open");
+    overlay.classList.add("open");
+    menuBtn.setAttribute("aria-expanded","true");
+    sideMenu.setAttribute("aria-hidden","false");
+    overlay.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+  }
 
-      const cep = $("#cep");
-      if(cep){
-        cep.addEventListener("input", ()=>{ cep.value = normalizeCep(cep.value); });
-      }
+  function closeMenu(){
+    sideMenu.classList.remove("open");
+    overlay.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded","false");
+    sideMenu.setAttribute("aria-hidden","true");
+    overlay.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
 
-      setupColorPills();
-      setupCarousels();
-      loadCart();
-      setupImageLoadingFX();
-    })();
+  menuBtn.addEventListener("click", openMenu);
+  overlay.addEventListener("click", closeMenu);
+  if(closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+  // Ir para âncoras (sem “trocar seção”)
+  document.querySelectorAll(".menuItem[data-target]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const target = btn.getAttribute("data-target");
+      closeMenu();
+      if(!target) return;
+      document.querySelector(target)?.scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+  });
+
+  // Fechar com ESC
+  window.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") closeMenu();
+  });
+})();
+
+// ====== BLINDAGEM: se alguma imagem falhar, ela aparece mesmo assim ======
+(function safeImages(){
+  document.querySelectorAll(".media img").forEach(img=>{
+    const box = img.closest(".media");
+
+    // Se falhar, não deixa invisível
+    img.addEventListener("error", ()=>{
+      img.classList.add("is-loaded");
+      box && box.classList.add("is-loaded");
+      // opcional: coloca um placeholder leve
+      img.style.opacity = "1";
+    });
+
+    // Se já estiver em cache
+    if(img.complete){
+      img.classList.add("is-loaded");
+      box && box.classList.add("is-loaded");
+    }
+  });
+})();
   </script>
+
 </body>
 </html>
