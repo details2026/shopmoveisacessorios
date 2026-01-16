@@ -549,6 +549,73 @@
         align-items:start;
       }
     }
+
+/* LUNA – não cortar imagem */
+.media.media-contain img{
+  object-fit: contain;
+  padding: 10px;
+  background: #fff;
+}
+
+/* ===== Carrossel Pé de Alumínio ===== */
+.carousel-thumbs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.thumb{
+  width:54px;
+  height:54px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  overflow:hidden;
+  padding:6px;
+}
+
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.thumb.is-active{
+  border-color:#bdd4ff;
+  box-shadow: 0 0 0 3px rgba(47,134,255,.16);
+}
+
+.thumb{
+  width:54px;
+  height:54px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  overflow:hidden;
+  padding:6px;
+  box-shadow: 0 1px 0 rgba(12,18,32,.03);
+  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.thumb:hover{
+  transform: translateY(-1px);
+  border-color:#d7e2ff;
+  box-shadow: var(--shadow);
+}
+
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.thumb.is-active{
+  border-color:#bdd4ff;
+  box-shadow: 0 0 0 3px rgba(47,134,255,.16);
+}
   </style>
 </head>
 
@@ -713,6 +780,86 @@
 
           <div class="note">Seu grande diferencial está no curvo contínuo de 179 graus, que acompanha perfeitamente a borda do móvel, criando um visual elegante, limpo e moderno.</div>
         </article>
+
+        <!-- LUNA -->
+<article class="card" data-kind="puxadores" data-key="luna">
+  <div class="card-top">
+    <div class="media media-contain">
+      <img
+        id="img-luna"
+        src="assets/luna-amb.jpg"
+        alt="Puxador Luna"
+        loading="lazy"
+      >
+    </div>
+
+    <div class="meta">
+      <h3>Puxador Luna</h3>
+      <p class="sub">Design orgânico • Zamac • Furação 32mm</p>
+    </div>
+
+    <div class="field">
+      <label>Cores</label>
+      <div class="pills" data-target-img="img-luna" data-product-key="luna">
+        <button type="button" class="pill is-active" data-color="oro">
+          <span class="swatch" style="background:#caa23a"></span>Ouro
+        </button>
+        <button type="button" class="pill" data-color="nebbio">
+          <span class="swatch" style="background:#cfcfcf"></span>Nebbio
+        </button>
+        <button type="button" class="pill" data-color="capuccino">
+          <span class="swatch" style="background:#8b6a4f"></span>Capuccino
+        </button>
+        <button type="button" class="pill" data-color="preto">
+          <span class="swatch" style="background:#111"></span>Preto
+        </button>
+        <button type="button" class="pill" data-color="grafite">
+          <span class="swatch" style="background:#555"></span>Grafite
+        </button>
+        <button type="button" class="pill" data-color="tegola">
+          <span class="swatch" style="background:#b66a43"></span>Tégola
+        </button>
+      </div>
+    </div>
+
+    <!-- imagem técnica -->
+    <div class="media media-contain" style="margin-top:10px;">
+      <button
+  id="btn-luna-med"
+  type="button"
+  class="btn btn-full"
+  onclick="toggleLunaMedidas()"
+>
+  Ver medidas
+</button>
+
+<div id="luna-medidas" hidden style="margin-top:10px;">
+  <div class="media media-contain">
+    <img
+      id="img-luna-md"
+      data-src="assets/luna-md.png"
+      alt="Medidas do Puxador Luna"
+    >
+  </div>
+</div>
+
+  <div class="card-actions">
+    <button class="btn btn-full btn-primary" onclick="addToCart('luna')">
+      Adicionar ao carrinho
+    </button>
+    <button class="btn btn-full" onclick="quoteNow('luna')">
+      Pedir orçamento
+    </button>
+  </div>
+
+  <div class="note">
+    <b>Características</b><br>
+    • Pintura 100% epóxi<br>
+    • Material zamac • furação padrão 32mm • rosca M4<br>
+    • Alta durabilidade no acabamento<br>
+    • Resistência 150h saltspray (ajuda a impedir oxidação em regiões litorâneas)
+  </div>
+</article>
 
         <!-- SMART SLIM -->
         <article class="card" data-kind="puxadores" data-key="smartSlim">
@@ -899,37 +1046,60 @@
           <div class="note">* Log é 20cm. Você escolhe se é para chapa 15mm ou 18mm.</div>
         </article>
 
-        <!-- PÉ DE ALUMÍNIO -->
-        <article class="card" data-kind="pes" data-key="peAluminio">
-          <div class="card-top">
-            <div class="media">
-              <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
-            </div>
+       <!-- PÉ DE ALUMÍNIO -->
+<article class="card" data-kind="pes" data-key="peAluminio">
+  <div class="card-top">
+    <div class="media">
+      <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
+    </div>
 
-            <div class="meta">
-              <h3>Pé de Alumínio</h3>
-              <p class="sub">Sob medida • Com regulagem • Ideal para gabinetes e móveis</p>
-            </div>
+    <!-- ✅ Carrossel (TEM que ficar aqui, dentro do card-top) -->
+    <div class="carousel-thumbs" data-target-img="img-peAluminio">
+      <button type="button" class="thumb is-active" data-src="assets/amb-pe.png">
+        <img src="assets/amb-pe.png" alt="">
+      </button>
 
-            <div class="row">
-              <div class="field">
-                <label for="pe-altura">Altura desejada</label>
-                <input id="pe-altura" type="text" placeholder="Ex.: 20cm / 15cm / sob medida">
-              </div>
-              <div class="field">
-                <label for="pe-obs">Uso do móvel</label>
-                <input id="pe-obs" type="text" placeholder="Ex.: gabinete pia / balcão">
-              </div>
-            </div>
+      <button type="button" class="thumb" data-src="assets/pe-aluminio.png.png">
+        <img src="assets/pe-aluminio.png.png" alt="">
+      </button>
 
-            <div class="note">* Para pés, normalmente é orçamento direto (altura sob medida).</div>
-          </div>
+      <button type="button" class="thumb" data-src="assets/pe-do-amb.png">
+        <img src="assets/pe-do-amb.png" alt="">
+      </button>
 
-          <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="quoteNow('peAluminio')">Pedir orçamento pelo WhatsApp</button>
-            <button class="btn btn-full" onclick="openWhatsApp('Olá! Quero saber mais sobre o Pé de Alumínio (sob medida).')">Falar no WhatsApp</button>
-          </div>
-        </article>
+      <button type="button" class="thumb" data-src="assets/pe-girando.png">
+        <img src="assets/pe-girando.png" alt="">
+      </button>
+
+      <button type="button" class="thumb" data-src="assets/pes-dourado.png">
+        <img src="assets/pes-dourado.png" alt="">
+      </button>
+    </div>
+
+    <div class="meta">
+      <h3>Pé de Alumínio</h3>
+      <p class="sub">Sob medida • Com regulagem • Ideal para gabinetes e móveis</p>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="pe-altura">Altura desejada</label>
+        <input id="pe-altura" type="text" placeholder="Ex.: 20cm / 15cm / sob medida">
+      </div>
+      <div class="field">
+        <label for="pe-obs">Uso do móvel</label>
+        <input id="pe-obs" type="text" placeholder="Ex.: gabinete pia / balcão">
+      </div>
+    </div>
+
+    <div class="note">* Para pés, normalmente é orçamento direto (altura sob medida).</div>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn btn-full btn-primary" onclick="quoteNow('peAluminio')">Pedir orçamento pelo WhatsApp</button>
+    <button class="btn btn-full" onclick="openWhatsApp('Olá! Quero saber mais sobre o Pé de Alumínio (sob medida).')">Falar no WhatsApp</button>
+  </div>
+</article>
 
       </div>
     </div>
@@ -1190,6 +1360,14 @@
         preto: "assets/aura-preto.png",
         cinza: "assets/aura-cinza.png"
       },
+      luna: {
+  oro:       "assets/luna-oro.png",
+  nebbio:    "assets/luna-nebbio.png",
+  capuccino: "assets/luna-capuccino.png",
+  preto:     "assets/luna-preto.png",
+  grafite:   "assets/luna-grafite.png",
+  tegola:    "assets/luna-tegola.png"
+},
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1226,6 +1404,7 @@
 
     const productNames = {
       aura: "Puxador Aura",
+      luna: "Puxador Luna",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
       new: "New",
@@ -1374,14 +1553,69 @@ function setupImageLoadingFX(){
     if (img.complete && img.naturalWidth > 0) done();
   });
 }
-    // ====== INIT ======
-    document.addEventListener("DOMContentLoaded", ()=>{ 
-      setupColorPills();
-      setupImageLoadingFX();
-      loadCart();
-      $$("#year").forEach(el=>el.textContent = new Date().getFullYear());
+
+function setupCarousels(){
+  document.querySelectorAll(".carousel-thumbs").forEach(group=>{
+    const imgId = group.dataset.targetImg;
+    const img = document.getElementById(imgId);
+    if(!img) return;
+
+    group.addEventListener("click", (e)=>{
+      const btn = e.target.closest(".thumb");
+      if(!btn) return;
+
+      const src = btn.dataset.src;
+      if(!src) return;
+
+      group.querySelectorAll(".thumb").forEach(b=>b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+
+      img.src = src;
     });
-   
+  });
+}
+function toggleLunaMedidas(){
+  const box = document.getElementById("luna-medidas");
+  const img = document.getElementById("img-luna-md");
+  const btn = document.getElementById("btn-luna-med");
+  if(!box || !img || !btn) return;
+
+  const isOpen = !box.hasAttribute("hidden");
+
+  if(isOpen){
+    box.setAttribute("hidden", "");
+    btn.textContent = "Ver medidas";
+    return;
+  }
+
+  box.removeAttribute("hidden");
+  btn.textContent = "Ocultar medidas";
+
+  // carrega a imagem só na primeira vez
+  if(!img.getAttribute("src")){
+    const src = img.getAttribute("data-src");
+    img.onload = () => {
+      img.classList.add("is-loaded");
+      img.closest(".media")?.classList.add("is-loaded");
+    };
+    img.onerror = () => console.error("ERRO ao carregar:", src);
+    img.setAttribute("src", src);
+
+    // força aparecer mesmo com seu CSS de opacity
+    img.classList.add("is-loaded");
+    img.closest(".media")?.classList.add("is-loaded");
+  }
+}
+
+    // ====== INIT ======
+   document.addEventListener("DOMContentLoaded", ()=>{
+  setupColorPills();
+  setupImageLoadingFX();
+  setupCarousels(); // ✅ ESSENCIAL
+  loadCart();
+  $$("#year").forEach(el=>el.textContent = new Date().getFullYear());
+});
+
 
     // ====== FILTER ======
     function setFilter(kind, btn){
@@ -1576,6 +1810,7 @@ function setupImageLoadingFX(){
       }
 
       setupColorPills();
+      setupCarousels();
       loadCart();
       setupImageLoadingFX();
     })();
