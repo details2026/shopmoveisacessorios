@@ -76,6 +76,16 @@ article[data-key="luna"] .media img {
 article[data-key="luna"]:hover .media img {
   transform: scale(1.08);
 }
+
+/* ===== Corrigir zoom (não cortar) em produtos selecionados ===== */
+article[data-key="roma"] .media img,
+article[data-key="steloArchi"] .media img{
+  object-fit: contain;
+  width: 92%;
+  height: 92%;
+  background: transparent;
+}
+
   </style>
   <style>
 
@@ -344,10 +354,10 @@ article[data-key="luna"]:hover .media img {
       100%{ background-position: 200% 0; }
     }
     .media img{
-      width:100%; height:100%; object-fit:cover;
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
+  width:100%; height:100%; object-fit:contain;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
     .media img.is-loaded{ opacity: 1; }
     .media.is-loaded{
       animation: none;
@@ -698,6 +708,23 @@ article[data-key="luna"]:hover .media img {
     height: 100%;
     object-fit: cover;
   }
+}
+
+/* Mantém ambientada em COVER */
+article[data-key="roma"] .media img,
+article[data-key="steloArchi"] .media img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Só as imagens de cor (alt) ficam CONTAIN */
+article[data-key="roma"] .media img[src*="-alt"],
+article[data-key="steloArchi"] .media img[src*="-alt"]{
+  object-fit: contain;
+  width: 92%;
+  height: 92%;
+  background: transparent;
 }
 
   </style>
@@ -1074,6 +1101,66 @@ article[data-key="luna"]:hover .media img {
   <div class="card-actions">
     <button class="btn btn-full btn-primary" onclick="addToCart('steloArchi')">Adicionar ao carrinho</button>
     <button class="btn btn-full" onclick="quoteNow('steloArchi')">Pedir orçamento</button>
+  </div>
+</article>
+
+<!-- ROMA -->
+<article class="card" data-kind="puxadores" data-key="roma">
+  <div class="card-top">
+    <div class="media">
+      <img id="img-roma" src="assets/roma-amb.jpg" alt="Puxador Roma" loading="lazy">
+    </div>
+
+    <div class="meta">
+      <h3>Puxador Roma</h3>
+      <p class="sub">146mm • Pintura eletrostática a pó</p>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="roma-chapa">Chapa</label>
+        <select id="roma-chapa">
+          <option value="12mm" selected>12mm</option>
+          <option value="15mm">15mm</option>
+          <option value="18mm">18mm</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Cores</label>
+      <div class="pills" data-target-img="img-roma" data-product-key="roma">
+        <button type="button" class="pill is-active" data-color="preto">
+          <span class="swatch" style="background:#111"></span>Preto
+        </button>
+        <button type="button" class="pill" data-color="cinza">
+          <span class="swatch" style="background:#9aa3ad"></span>Cinza
+        </button>
+        <button type="button" class="pill" data-color="inox">
+          <span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox
+        </button>
+        <button type="button" class="pill" data-color="rose">
+          <span class="swatch" style="background:#c8a2a8"></span>Rosé
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn btn-full btn-primary" onclick="addToCart('roma')">
+      Adicionar ao carrinho
+    </button>
+    <button class="btn btn-full" onclick="quoteNow('roma')">
+      Pedir orçamento
+    </button>
+  </div>
+
+  <div class="note">
+    <b>Características</b><br>
+    • Comprimento: 146mm<br>
+    • Compatível com chapas de 12mm, 15mm e 18mm<br>
+    • Pintura eletrostática a pó<br>
+    • Alta durabilidade no acabamento
   </div>
 </article>
 
@@ -1596,6 +1683,12 @@ otto: {
 steloArchi: {
   amb: "assets/stelo-amb.webp"
 },
+roma: {
+  preto: "assets/preto-alt.png",
+  cinza: "assets/cinza-alt.png",
+  inox:  "assets/inox-alt.png",
+  rose:  "assets/rose-alt.webp"
+},
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1635,6 +1728,7 @@ steloArchi: {
       luna: "Puxador Luna",
       otto: "Puxador Otto",
       steloArchi: "Puxador Stelo Archi",
+      roma: "Puxador Roma",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
       new: "New",
@@ -1670,6 +1764,9 @@ steloArchi: {
 if(productKey === "steloArchi"){
   opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
   opts.chapa = $("#stelo-chapa")?.value || "15mm";
+}
+if(productKey === "roma"){
+  opts.chapa = $("#roma-chapa")?.value || "12mm";
 }
       if(productKey === "smartSlim"){
         opts.medida = $("#slim-medida")?.value || "";
@@ -1716,6 +1813,9 @@ if(productKey === "steloArchi"){
       }
       if(productKey === "steloArchi"){
   if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+  if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+}
+if(productKey === "roma"){
   if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
 }
       return parts.join(" • ");
@@ -2056,6 +2156,9 @@ function toggleLunaMedidas(){
       if(productKey === "steloArchi"){
   msg += `\nTamanho: ${opts.tamanho || "(informar)"}`
       +  `\nChapa: ${opts.chapa || "(informar)"}`;
+}
+if(productKey === "roma"){
+  msg += `\nChapa: ${opts.chapa || "(informar)"}`;
 }
 
       msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
