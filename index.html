@@ -59,6 +59,23 @@
 }
 .menuSep{ height:1px; background:var(--line); margin:6px 0; }
 .menuGroupTitle{ font-size:12px; color:var(--muted); margin:4px 2px 0; }
+
+/* =========================
+   ZOOM NO HOVER – SÓ LUNA
+   ========================= */
+
+article[data-key="luna"] .media {
+  overflow: hidden;
+}
+
+article[data-key="luna"] .media img {
+  transition: transform 0.45s ease;
+}
+
+/* zoom ao passar o mouse */
+article[data-key="luna"]:hover .media img {
+  transform: scale(1.08);
+}
   </style>
   <style>
 
@@ -661,6 +678,24 @@
   border-color:#bdd4ff;
   box-shadow: 0 0 0 3px rgba(47,134,255,.16);
 }
+
+/* =========================
+   CORREÇÃO IMAGEM NO MOBILE
+   ========================= */
+@media (max-width: 768px) {
+  .media img,
+  .hero img {
+    height: auto !important;
+    max-height: 240px;
+    object-fit: contain;
+  }
+
+  .media,
+  .hero {
+    height: auto;
+  }
+}
+
   </style>
 </head>
 
@@ -886,7 +921,7 @@
       <label>Cores</label>
       <div class="pills" data-target-img="img-luna" data-product-key="luna">
         <button type="button" class="pill is-active" data-color="oro">
-          <span class="swatch" style="background:#caa23a"></span>Ouro
+          <span class="swatch" style="background:#caa23a"></span>Oro
         </button>
         <button type="button" class="pill" data-color="nebbio">
           <span class="swatch" style="background:#cfcfcf"></span>Nebbio
@@ -901,7 +936,7 @@
           <span class="swatch" style="background:#555"></span>Grafite
         </button>
         <button type="button" class="pill" data-color="tegola">
-          <span class="swatch" style="background:#b66a43"></span>Tégola
+          <span class="swatch" style="background:#b66a43"></span>Tegola
         </button>
       </div>
     </div>
@@ -963,12 +998,12 @@
     <div class="field">
       <label>Cores</label>
       <div class="pills" data-target-img="img-otto" data-product-key="otto">
-        <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Ouro</button>
+        <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
         <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
         <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
         <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
         <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
-        <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tégola</button>
+        <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tegola</button>
       </div>
     </div>
 
