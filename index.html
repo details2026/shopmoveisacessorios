@@ -1036,6 +1036,46 @@ article[data-key="luna"]:hover .media img {
   </div>
 </article>
 
+<!-- STELO ARCHI -->
+<article class="card" data-kind="puxadores" data-key="steloArchi">
+  <div class="card-top">
+    <div class="media">
+      <img id="img-steloArchi" src="assets/stelo-amb.webp" alt="Puxador Stelo Archi" loading="lazy">
+    </div>
+
+    <div class="meta">
+      <h3>Puxador Stelo Archi</h3>
+      <p class="sub">Acabamento anodizado • Para chapas 15mm ou 18mm</p>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="stelo-medida">Tamanho</label>
+        <select id="stelo-medida">
+          <option value="96mm (Comp. 115mm)" selected>96mm (Comp. 115mm)</option>
+          <option value="192mm (Comp. 210mm)">192mm (Comp. 210mm)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="stelo-chapa">Chapa</label>
+        <select id="stelo-chapa">
+          <option value="15mm" selected>15mm</option>
+          <option value="18mm">18mm</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="note">
+      * Acabamento anodizado. Disponível nos tamanhos 96mm (comp. 115mm) e 192mm (comp. 210mm).
+    </div>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn btn-full btn-primary" onclick="addToCart('steloArchi')">Adicionar ao carrinho</button>
+    <button class="btn btn-full" onclick="quoteNow('steloArchi')">Pedir orçamento</button>
+  </div>
+</article>
 
         <!-- SMART SLIM -->
         <article class="card" data-kind="puxadores" data-key="smartSlim">
@@ -1553,6 +1593,9 @@ otto: {
   grafite:   "assets/otto-grafite.png",
   tegola:    "assets/otto-tegola.png"
 },
+steloArchi: {
+  amb: "assets/stelo-amb.webp"
+},
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1591,6 +1634,7 @@ otto: {
       aura: "Puxador Aura",
       luna: "Puxador Luna",
       otto: "Puxador Otto",
+      steloArchi: "Puxador Stelo Archi",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
       new: "New",
@@ -1623,6 +1667,10 @@ otto: {
     function getProductOptions(productKey){
       const opts = {};
 
+if(productKey === "steloArchi"){
+  opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
+  opts.chapa = $("#stelo-chapa")?.value || "15mm";
+}
       if(productKey === "smartSlim"){
         opts.medida = $("#slim-medida")?.value || "";
         opts.obs = $("#slim-obs")?.value?.trim() || "";
@@ -1666,6 +1714,10 @@ otto: {
         if(opts.altura) parts.push(`Altura: ${opts.altura}`);
         if(opts.uso) parts.push(`Uso: ${opts.uso}`);
       }
+      if(productKey === "steloArchi"){
+  if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+  if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+}
       return parts.join(" • ");
     }
 
@@ -2001,6 +2053,10 @@ function toggleLunaMedidas(){
         msg += `\nChapa: ${opts.chapa || "18mm"}`
             +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
       }
+      if(productKey === "steloArchi"){
+  msg += `\nTamanho: ${opts.tamanho || "(informar)"}`
+      +  `\nChapa: ${opts.chapa || "(informar)"}`;
+}
 
       msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
       openWhatsApp(msg);
