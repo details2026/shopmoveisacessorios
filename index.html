@@ -13,82 +13,9 @@
   <link rel="preload" href="assets/amb-new.png.jpg" as="image">
   <link rel="preload" href="assets/amb-log.png" as="image">
   <link rel="preload" href="assets/amb-pe.png" as="image">
-  <!-- ✅ Aura (LANÇAMENTO) -->
   <link rel="preload" href="assets/aura-amb.jpeg" as="image">
 
-  <style>   
-  /* ===== MENU LATERAL (SEM CONFLITAR COM TOPBAR) ===== */
-.menuOverlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.35);
-  opacity:0; pointer-events:none; transition:opacity .18s ease;
-  z-index:95;
-}
-.menuOverlay.open{ opacity:1; pointer-events:auto; }
-
-.sideMenu{
-  position:fixed; top:0; right:0; height:100vh; width:min(360px, 88vw);
-  background:#fff; box-shadow: var(--shadow2);
-  transform: translateX(102%); transition: transform .22s ease;
-  z-index:96;
-  display:flex; flex-direction:column;
-}
-.sideMenu.open{ transform: translateX(0); }
-.sideMenu-head{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 16px; border-bottom:1px solid var(--line);
-}
-.sideMenu-title{ font-weight:900; }
-.closeBtn{
-  border:1px solid var(--line); background:#fff; border-radius:10px;
-  padding:8px 10px; cursor:pointer;
-}
-.menuList{ padding:12px; display:flex; flex-direction:column; gap:8px; }
-.menuItem{
-  width:100%; text-align:left; cursor:pointer;
-  padding:12px 12px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:#fff;
-  font-weight:900;
-}
-.menuItem:hover{ border-color:#cfd9ee; }
-.menuItem.primary{
-  background: linear-gradient(180deg, var(--primary2), var(--primary));
-  color:#fff;
-  border-color:transparent;
-}
-.menuSep{ height:1px; background:var(--line); margin:6px 0; }
-.menuGroupTitle{ font-size:12px; color:var(--muted); margin:4px 2px 0; }
-
-/* =========================
-   ZOOM NO HOVER – SÓ LUNA
-   ========================= */
-
-article[data-key="luna"] .media {
-  overflow: hidden;
-}
-
-article[data-key="luna"] .media img {
-  transition: transform 0.45s ease;
-}
-
-/* zoom ao passar o mouse */
-article[data-key="luna"]:hover .media img {
-  transform: scale(1.08);
-}
-
-/* ===== Corrigir zoom (não cortar) em produtos selecionados ===== */
-article[data-key="roma"] .media img,
-article[data-key="steloArchi"] .media img{
-  object-fit: contain;
-  width: 92%;
-  height: 92%;
-  background: transparent;
-}
-
-  </style>
   <style>
-
     /* Animações */
     @keyframes heroFade{ to{ opacity:1; transform:translateY(0); } }
     @keyframes logoPop{ to{ opacity:1; transform:scale(1); } }
@@ -120,14 +47,6 @@ article[data-key="steloArchi"] .media img{
     a{color:inherit; text-decoration:none}
     img{max-width:100%; display:block}
 
-    /* Top bar */
-    .topbar{
-      background:linear-gradient(90deg,var(--primary), #003a86);
-      color:#fff;
-      font-size:12px;
-      padding:10px 16px;
-      text-align:center;
-    }
     .wrap{max-width:1140px; margin:0 auto; padding:0 16px;}
 
     /* Header */
@@ -183,7 +102,6 @@ article[data-key="steloArchi"] .media img{
       border-color:#e0e8ff;
       color:var(--primary);
     }
-
     .icon{ width:18px; height:18px; display:inline-block; flex:0 0 auto; }
 
     .cart-btn{ position:relative; }
@@ -199,7 +117,7 @@ article[data-key="steloArchi"] .media img{
       border:2px solid #fff;
     }
 
-    /* Hero */
+    /* HERO */
     .hero{
       position:relative;
       padding:26px 0 14px;
@@ -236,12 +154,16 @@ article[data-key="steloArchi"] .media img{
       font-size:15px;
       max-width:58ch;
     }
-    .hero-actions{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-bottom:14px;
-    }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
 
-    /* HERO VIDEO BOX */
+    .hero-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:14px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
     .hero-photo{
       background:#000;
       border-radius:18px;
@@ -260,10 +182,6 @@ article[data-key="steloArchi"] .media img{
       object-fit:cover;
       display:block;
     }
-    @media (max-width: 768px){
-      .hero-photo{ height:200px; }
-    }
-
     .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
     .chip{
       display:inline-flex; align-items:center; gap:8px;
@@ -277,24 +195,8 @@ article[data-key="steloArchi"] .media img{
       box-shadow: 0 1px 0 rgba(12,18,32,.03);
     }
     .chip svg{width:16px; height:16px; color:var(--primary)}
-    .hero-card{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius: var(--radius2);
-      padding:14px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .hero-card .mini{
-      display:grid; grid-template-columns: 1fr 1fr;
-      gap:10px; margin-top:12px;
-    }
-    .mini-box{
-      border:1px solid var(--line);
-      background:#fbfcff;
-      border-radius:16px;
-      padding:10px;
-    }
+    .hero-card .mini{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px; }
+    .mini-box{ border:1px solid var(--line); background:#fbfcff; border-radius:16px; padding:10px; }
     .mini-box b{display:block; font-size:13px}
     .mini-box span{color:var(--muted); font-weight:650; font-size:12px}
 
@@ -307,7 +209,7 @@ article[data-key="steloArchi"] .media img{
     .section-title h2{ margin:0; font-size:22px; letter-spacing:-.3px; }
     .section-title p{ margin:0; color:var(--muted); font-weight:650; font-size:14px; }
 
-    /* Products */
+    /* Filters */
     .filters{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 14px; }
     .tab{
       padding:10px 12px;
@@ -324,6 +226,8 @@ article[data-key="steloArchi"] .media img{
       border-color:#cfe0ff;
       color:var(--primary);
     }
+
+    /* Products */
     .grid{ display:grid; gap:14px; }
     .card{
       background:var(--card);
@@ -335,6 +239,8 @@ article[data-key="steloArchi"] .media img{
       flex-direction:column;
     }
     .card-top{ padding:14px; display:grid; gap:10px; }
+
+    /* shimmer */
     .media{
       border:1px solid var(--line);
       border-radius:18px;
@@ -342,22 +248,18 @@ article[data-key="steloArchi"] .media img{
       overflow:hidden;
       aspect-ratio: 1 / 1;
       display:grid; place-items:center;
-
-      /* shimmer */
       position: relative;
       background: linear-gradient(90deg,#f2f5ff,#ffffff,#f2f5ff);
       background-size: 200% 100%;
       animation: shimmer 1.1s infinite linear;
     }
-    @keyframes shimmer{
-      0%{ background-position: 0% 0; }
-      100%{ background-position: 200% 0; }
-    }
+    @keyframes shimmer{ 0%{ background-position: 0% 0; } 100%{ background-position: 200% 0; } }
+
     .media img{
-  width:100%; height:100%; object-fit:contain;
-  opacity: 0;
-  transition: opacity .25s ease;
-}
+      width:100%; height:100%; object-fit:contain;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
     .media img.is-loaded{ opacity: 1; }
     .media.is-loaded{
       animation: none;
@@ -425,7 +327,7 @@ article[data-key="steloArchi"] .media img{
     .btn-full{flex:1 1 160px; justify-content:center}
     .note{ padding:10px 14px 14px; color:var(--muted); font-size:12px; font-weight:700; }
 
-    /* ====== DESTAQUE LANÇAMENTO (só para o Aura) ====== */
+    /* Lançamento */
     .card.is-launch{
       border-color:#cfe0ff;
       box-shadow: 0 16px 55px rgba(0,74,171,.16);
@@ -606,7 +508,103 @@ article[data-key="steloArchi"] .media img{
     .footer-grid a{color:#e8eefc; opacity:.9}
     .footer-grid a:hover{opacity:1}
 
+    /* MENU LATERAL */
+    .menuOverlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.35);
+      opacity:0; pointer-events:none; transition:opacity .18s ease;
+      z-index:95;
+    }
+    .menuOverlay.open{ opacity:1; pointer-events:auto; }
+
+    /* ✅ MENU AGORA ABRE PELA ESQUERDA */
+    .sideMenu{
+      position:fixed; top:0; left:0; right:auto;
+      height:100vh; width:min(360px, 88vw);
+      background:#fff; box-shadow: var(--shadow2);
+      transform: translateX(-102%); transition: transform .22s ease;
+      z-index:96;
+      display:flex; flex-direction:column;
+    }
+    .sideMenu.open{ transform: translateX(0); }
+    .sideMenu-head{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px; border-bottom:1px solid var(--line);
+    }
+    .sideMenu-title{ font-weight:900; }
+    .closeBtn{
+      border:1px solid var(--line); background:#fff; border-radius:10px;
+      padding:8px 10px; cursor:pointer;
+    }
+    .menuList{ padding:12px; display:flex; flex-direction:column; gap:8px; }
+    .menuItem{
+      width:100%; text-align:left; cursor:pointer;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:900;
+    }
+    .menuItem:hover{ border-color:#cfd9ee; }
+    .menuItem.primary{
+      background: linear-gradient(180deg, var(--primary2), var(--primary));
+      color:#fff;
+      border-color:transparent;
+    }
+    .menuSep{ height:1px; background:var(--line); margin:6px 0; }
+    .menuGroupTitle{ font-size:12px; color:var(--muted); margin:4px 2px 0; }
+
+    /* LUNA: não cortar / zoom hover só nele */
+    article[data-key="luna"] .media{ overflow:hidden; }
+    article[data-key="luna"] .media img{ transition: transform 0.45s ease; }
+    article[data-key="luna"]:hover .media img{ transform: scale(1.08); }
+
+    .media.media-contain{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .media.media-contain img{
+      width:92%;
+      height:92%;
+      object-fit:contain;
+      background:transparent;
+    }
+
+    /* Carrossel Pé */
+    .carousel-thumbs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .thumb{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      overflow:hidden;
+      padding:6px;
+      box-shadow: 0 1px 0 rgba(12,18,32,.03);
+      transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .thumb:hover{
+      transform: translateY(-1px);
+      border-color:#d7e2ff;
+      box-shadow: var(--shadow);
+    }
+    .thumb img{ width:100%; height:100%; object-fit:contain; }
+    .thumb.is-active{
+      border-color:#bdd4ff;
+      box-shadow: 0 0 0 3px rgba(47,134,255,.16);
+    }
+
     /* Responsive */
+    @media (max-width: 768px){
+      .hero-photo{ height: 200px; }
+      .hero-video{ width:100%; height:100%; object-fit:cover; }
+    }
     @media (min-width: 860px){
       nav ul{display:flex;}
       .hero-grid{
@@ -621,127 +619,12 @@ article[data-key="steloArchi"] .media img{
         align-items:start;
       }
     }
-
-/* LUNA – não cortar imagem */
-.media.media-contain{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.media.media-contain img{
-  width: 92%;
-  height: 92%;
-  object-fit: contain;
-  padding: 0;
-  background: transparent;
-}
-
-
-/* ===== Carrossel Pé de Alumínio ===== */
-.carousel-thumbs{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:10px;
-}
-
-.thumb{
-  width:54px;
-  height:54px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:#fff;
-  cursor:pointer;
-  overflow:hidden;
-  padding:6px;
-}
-
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.thumb.is-active{
-  border-color:#bdd4ff;
-  box-shadow: 0 0 0 3px rgba(47,134,255,.16);
-}
-
-.thumb{
-  width:54px;
-  height:54px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:#fff;
-  cursor:pointer;
-  overflow:hidden;
-  padding:6px;
-  box-shadow: 0 1px 0 rgba(12,18,32,.03);
-  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-}
-
-.thumb:hover{
-  transform: translateY(-1px);
-  border-color:#d7e2ff;
-  box-shadow: var(--shadow);
-}
-
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.thumb.is-active{
-  border-color:#bdd4ff;
-  box-shadow: 0 0 0 3px rgba(47,134,255,.16);
-}
-
-/* =========================
-   MOBILE: ajustar SÓ o HERO (vídeo)
-   ========================= */
-@media (max-width: 768px){
-  .hero-photo{ height: 200px; } /* você já tinha algo assim, pode manter */
-  .hero-video{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-/* Mantém ambientada em COVER */
-article[data-key="roma"] .media img,
-article[data-key="steloArchi"] .media img{
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-/* Só as imagens de cor (alt) ficam CONTAIN */
-article[data-key="roma"] .media img[src*="-alt"],
-article[data-key="steloArchi"] .media img[src*="-alt"]{
-  object-fit: contain;
-  width: 92%;
-  height: 92%;
-  background: transparent;
-}
-
   </style>
 </head>
 
 <body>
 
-<style>
-  .hint{
-    color:#5a647a; font-size:13px;
-    border:1px dashed #e8edf6; padding:10px 12px; border-radius:12px;
-    background:#fbfcff;
-  }
-</style>
   <!-- HEADER -->
-  <!-- TOPO -->
-
   <header>
     <div class="wrap">
       <div class="nav">
@@ -755,71 +638,70 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
 
         <nav aria-label="Menu">
           <ul>
+            <li><a href="#lancamentos">Lançamentos</a></li>
             <li><a href="#produtos">Produtos</a></li>
-            <li><a href="#medidas">Medidas</a></li>
-            <li><a href="#como-comprar">Como comprar</a></li>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#quem-somos">Quem somos</a></li>
+            <li><a href="#trabalhe-conosco">Trabalhe conosco</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
         </nav>
 
         <div class="header-actions">
-  <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
-    <span class="icon" aria-hidden="true">
-      <!-- (seu svg do WhatsApp fica igual) -->
-      <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
-        <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
-        <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
-      </svg>
-    </span>
-    WhatsApp
-  </button>
+          <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
+                <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
+                <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
+              </svg>
+            </span>
+            WhatsApp
+          </button>
 
-  <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
-    <span class="icon" aria-hidden="true">
-      <!-- (seu svg do carrinho fica igual) -->
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-        <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
-      </svg>
-    </span>
-    Carrinho
-    <span class="badge" id="cartBadge" style="display:none">0</span>
-  </button>
+          <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
+              </svg>
+            </span>
+            Carrinho
+            <span class="badge" id="cartBadge" style="display:none">0</span>
+          </button>
 
-  <!-- ✅ BOTAO DO MENU -->
-  <button class="btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" title="Menu">
-    ⋯
-  </button>
-</div>
+          <!-- ✅ BOTAO DO MENU -->
+          <button class="btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" title="Menu">⋯</button>
+        </div>
       </div>
     </div>
   </header>
 
-<!-- MENU LATERAL (overlay + painel) -->
-<div class="menuOverlay" id="menuOverlay" aria-hidden="true"></div>
+  <!-- MENU LATERAL -->
+  <div class="menuOverlay" id="menuOverlay" aria-hidden="true"></div>
 
-<aside class="sideMenu" id="sideMenu" aria-label="Menu lateral" aria-hidden="true">
-  <div class="sideMenu-head">
-    <div class="sideMenu-title">Menu</div>
-    <button class="closeBtn" id="closeBtn" type="button">Fechar</button>
-  </div>
+  <aside class="sideMenu" id="sideMenu" aria-label="Menu lateral" aria-hidden="true">
+    <div class="sideMenu-head">
+      <div class="sideMenu-title">Menu</div>
+      <button class="closeBtn" id="closeBtn" type="button">Fechar</button>
+    </div>
 
-  <div class="menuList">
-    <div class="menuGroupTitle">Ir para</div>
-    <button class="menuItem" type="button" data-target="#inicio">Início</button>
-    <button class="menuItem" type="button" data-target="#produtos">Produtos</button>
-    <button class="menuItem" type="button" data-target="#medidas">Medidas</button>
-    <button class="menuItem" type="button" data-target="#como-comprar">Como comprar</button>
-    <button class="menuItem" type="button" data-target="#faq">FAQ</button>
-    <button class="menuItem" type="button" data-target="#contato">Contato</button>
+    <div class="menuList">
+      <div class="menuGroupTitle">Ir para</div>
+      <button class="menuItem" type="button" data-target="#inicio">Início</button>
+      <button class="menuItem" type="button" data-target="#lancamentos">Lançamentos</button>
+      <button class="menuItem" type="button" data-target="#produtos">Produtos</button>
+      <button class="menuItem" type="button" data-target="#quem-somos">Quem somos</button>
+      <button class="menuItem" type="button" data-target="#trabalhe-conosco">Trabalhe conosco</button>
+      <button class="menuItem" type="button" data-target="#medidas">Medidas</button>
+      <button class="menuItem" type="button" data-target="#como-comprar">Como comprar</button>
+      <button class="menuItem" type="button" data-target="#faq">FAQ</button>
+      <button class="menuItem" type="button" data-target="#contato">Contato</button>
 
-    <div class="menuSep"></div>
+      <div class="menuSep"></div>
 
-    <button class="menuItem primary" type="button" onclick="openCart()">Finalizar (Carrinho)</button>
-    <button class="menuItem" type="button" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">Falar no WhatsApp</button>
-  </div>
-</aside>
+      <button class="menuItem primary" type="button" onclick="openCart()">Finalizar (Carrinho)</button>
+      <button class="menuItem" type="button" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">Falar no WhatsApp</button>
+    </div>
+  </aside>
 
   <!-- HERO -->
   <main id="inicio" class="hero">
@@ -833,15 +715,13 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#produtos">Ver produtos</a>
+            <a class="btn btn-primary" href="#lancamentos">Ver lançamentos</a>
             <button class="btn" onclick="openCart()">Finalizar pelo WhatsApp</button>
           </div>
 
           <div class="chips">
             <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M20 7 10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M20 7 10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
               Acabamento premium
             </span>
             <span class="chip">
@@ -852,9 +732,7 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
               Atendimento rápido
             </span>
             <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4Z" stroke="currentColor" stroke-width="2" />
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4Z" stroke="currentColor" stroke-width="2" /></svg>
               Pedido organizado
             </span>
           </div>
@@ -883,26 +761,20 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
     </div>
   </main>
 
-  <!-- PRODUTOS -->
-  <section id="produtos">
+  <!-- LANÇAMENTOS (HOME) -->
+  <section id="lancamentos">
     <div class="wrap">
       <div class="section-title">
         <div>
-          <h2>Nossos produtos</h2>
-          <p>Sem links de plataforma — o objetivo é finalizar com você no WhatsApp.</p>
+          <h2>Lançamentos</h2>
+          <p>Novidades e destaques do momento.</p>
         </div>
       </div>
 
-      <div class="filters" role="tablist" aria-label="Filtros">
-        <button class="tab is-active" data-filter="all" onclick="setFilter('all', this)">Todos</button>
-        <button class="tab" data-filter="puxadores" onclick="setFilter('puxadores', this)">Puxadores</button>
-        <button class="tab" data-filter="pes" onclick="setFilter('pes', this)">Pés</button>
-      </div>
-
-      <div class="grid" id="productGrid">
+      <div class="grid" id="launchGrid">
 
         <!-- AURA (LANÇAMENTO) -->
-        <article class="card is-launch" data-kind="puxadores" data-key="aura">
+        <article class="card is-launch" data-kind="puxadores" data-line="shop" data-key="aura">
           <div class="card-top">
             <div class="media">
               <img id="img-aura" src="assets/aura-amb.jpeg" alt="Puxador Aura" loading="lazy">
@@ -924,248 +796,352 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="addToCart('aura')">Adicionar ao carrinho</button>
-            <button class="btn btn-full" onclick="quoteNow('aura')">Pedir orçamento</button>
+            <button class="btn btn-full btn-primary" onclick="addToCart('aura', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('aura', this)">Pedir orçamento</button>
+          </div>
+
+          <div class="note">Seu grande diferencial está no curvo contínuo de 179 graus, que acompanha perfeitamente a borda do móvel, criando um visual elegante, limpo e moderno.</div>
+        </article>
+
+      </div>
+
+      <div style="margin-top:14px;">
+        <a class="btn btn-primary" href="#produtos">Ver todos os produtos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUEM SOMOS -->
+  <section id="quem-somos">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Quem somos</h2>
+          <p>Detalhes certos que elevam o padrão do seu móvel.</p>
+        </div>
+      </div>
+
+      <div class="contact">
+        <b>Shop Móveis Acessórios</b>
+        <div class="small">
+          Somos especializados em puxadores e pés para móveis, com foco em acabamento premium, atendimento rápido e compra organizada via WhatsApp.
+          <br><br>
+          Trabalhamos com linhas selecionadas e soluções sob medida para marcenaria e projetos.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRABALHE CONOSCO -->
+  <section id="trabalhe-conosco">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Trabalhe conosco</h2>
+          <p>Parcerias com lojistas, marceneiros e profissionais.</p>
+        </div>
+      </div>
+
+      <div class="contact">
+        <b>Quer revender ou fazer parceria?</b>
+        <div class="small">
+          Envie uma mensagem no WhatsApp com:
+          <br>• Seu nome
+          <br>• Cidade/UF
+          <br>• Perfil (marceneiro/lojista/arquiteto)
+          <br>• Volume médio de compras
+        </div>
+
+        <button class="btn btn-primary" onclick="openWhatsApp('Olá! Quero trabalhar com vocês. Meu nome é..., sou de..., meu perfil é..., e meu volume médio é...')">
+          Falar no WhatsApp
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section id="produtos">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <h2>Nossos produtos</h2>
+          <p>Sem links de plataforma — o objetivo é finalizar com você no WhatsApp.</p>
+        </div>
+      </div>
+
+      <!-- FILTRO: TIPO -->
+      <div class="filters" role="tablist" aria-label="Filtros">
+        <button class="tab is-active" data-filter="all" onclick="setFilter('all', this)">Todos</button>
+        <button class="tab" data-filter="puxadores" onclick="setFilter('puxadores', this)">Puxadores</button>
+        <button class="tab" data-filter="pes" onclick="setFilter('pes', this)">Pés</button>
+      </div>
+
+      <!-- FILTRO: LINHA -->
+      <div class="filters" role="tablist" aria-label="Linhas">
+        <button class="tab is-active" data-line-filter="all" onclick="setLineFilter('all', this)">Todas as linhas</button>
+        <button class="tab" data-line-filter="shop" onclick="setLineFilter('shop', this)">Shop Móveis Acessórios</button>
+        <button class="tab" data-line-filter="alternativa" onclick="setLineFilter('alternativa', this)">Alternativa</button>
+        <button class="tab" data-line-filter="archi" onclick="setLineFilter('archi', this)">Archi</button>
+        <button class="tab" data-line-filter="puxe" onclick="setLineFilter('puxe', this)">Puxe</button>
+      </div>
+
+      <div class="grid" id="productGrid">
+
+        <!-- AURA (também aqui, com IDs diferentes para não quebrar) -->
+        <article class="card is-launch" data-kind="puxadores" data-line="shop" data-key="aura">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-aura-prod" src="assets/aura-amb.jpeg" alt="Puxador Aura" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Puxador Aura</h3>
+              <p class="sub">Cores: Inox, Preto e Cinza</p>
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-aura-prod" data-product-key="aura">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('aura', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('aura', this)">Pedir orçamento</button>
           </div>
 
           <div class="note">Seu grande diferencial está no curvo contínuo de 179 graus, que acompanha perfeitamente a borda do móvel, criando um visual elegante, limpo e moderno.</div>
         </article>
 
         <!-- LUNA -->
-<article class="card" data-kind="puxadores" data-key="luna">
-  <div class="card-top">
-    <div class="media media-contain">
-      <img
-        id="img-luna"
-        src="assets/luna-amb1.jpg"
-        alt="Puxador Luna"
-        loading="lazy"
-      >
-    </div>
+        <article class="card" data-kind="puxadores" data-line="alternativa" data-key="luna">
+          <div class="card-top">
+            <div class="media media-contain">
+              <img id="img-luna" src="assets/luna-amb1.jpg" alt="Puxador Luna" loading="lazy">
+            </div>
 
-    <div class="meta">
-      <h3>Puxador Luna</h3>
-      <p class="sub">Design orgânico • Zamac • Furação 32mm</p>
-    </div>
+            <div class="meta">
+              <h3>Puxador Luna</h3>
+              <p class="sub">Design orgânico • Zamac • Furação 32mm</p>
+            </div>
 
-    <div class="field">
-      <label>Cores</label>
-      <div class="pills" data-target-img="img-luna" data-product-key="luna">
-        <button type="button" class="pill is-active" data-color="oro">
-          <span class="swatch" style="background:#caa23a"></span>Oro
-        </button>
-        <button type="button" class="pill" data-color="nebbio">
-          <span class="swatch" style="background:#cfcfcf"></span>Nebbio
-        </button>
-        <button type="button" class="pill" data-color="capuccino">
-          <span class="swatch" style="background:#8b6a4f"></span>Capuccino
-        </button>
-        <button type="button" class="pill" data-color="preto">
-          <span class="swatch" style="background:#111"></span>Preto
-        </button>
-        <button type="button" class="pill" data-color="grafite">
-          <span class="swatch" style="background:#555"></span>Grafite
-        </button>
-        <button type="button" class="pill" data-color="tegola">
-          <span class="swatch" style="background:#b66a43"></span>Tegola
-        </button>
-      </div>
-    </div>
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-luna" data-product-key="luna">
+                <button type="button" class="pill is-active" data-color="oro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
+                <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
+                <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#8b6a4f"></span>Capuccino</button>
+                <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#555"></span>Grafite</button>
+                <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b66a43"></span>Tegola</button>
+              </div>
+            </div>
 
-    <!-- Medidas do Luna (só abre ao clicar) -->
-<div style="margin-top:10px;">
-  <button
-    id="btn-luna-med"
-    type="button"
-    class="btn btn-full"
-    onclick="toggleLunaMedidas()"
-  >
-    Ver medidas
-  </button>
+            <!-- Medidas do Luna -->
+            <div style="margin-top:10px;">
+              <button id="btn-luna-med" type="button" class="btn btn-full" onclick="toggleLunaMedidas()">Ver medidas</button>
 
-  <div id="luna-medidas" hidden style="margin-top:10px;">
-    <div class="media media-contain">
-      <img
-        id="img-luna-md"
-        data-src="assets/luna-md.png"
-        alt="Medidas do Puxador Luna"
-        loading="lazy"
-      >
-    </div>
-  </div>
-</div>
-  </div>
+              <div id="luna-medidas" hidden style="margin-top:10px;">
+                <div class="media media-contain">
+                  <img id="img-luna-md" data-src="assets/luna-md.png" alt="Medidas do Puxador Luna" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="card-actions">
-    <button class="btn btn-full btn-primary" onclick="addToCart('luna')">
-      Adicionar ao carrinho
-    </button>
-    <button class="btn btn-full" onclick="quoteNow('luna')">
-      Pedir orçamento
-    </button>
-  </div>
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('luna', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('luna', this)">Pedir orçamento</button>
+          </div>
 
-  <div class="note">
-    <b>Características</b><br>
-    • Pintura 100% epóxi<br>
-    • Material zamac • furação padrão 32mm • rosca M4<br>
-    • Alta durabilidade no acabamento<br>
-    • Resistência 150h saltspray (ajuda a impedir oxidação em regiões litorâneas)
-  </div>
-</article>
+          <div class="note">
+            <b>Características</b><br>
+            • Pintura 100% epóxi<br>
+            • Material zamac • furação padrão 32mm • rosca M4<br>
+            • Alta durabilidade no acabamento<br>
+            • Resistência 150h saltspray (ajuda a impedir oxidação em regiões litorâneas)
+          </div>
+        </article>
 
-<!-- OTTO -->
-<article class="card" data-kind="puxadores" data-key="otto">
-  <div class="card-top">
-    <div class="media">
-      <img id="img-otto" src="assets/otto-amb.png" alt="Puxador Otto" loading="lazy">
-    </div>
+        <!-- OTTO -->
+        <article class="card" data-kind="puxadores" data-line="alternativa" data-key="otto">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-otto" src="assets/otto-amb.png" alt="Puxador Otto" loading="lazy">
+            </div>
 
-    <div class="meta">
-      <h3>Puxador Otto</h3>
-      <p class="sub">Zamac • Furação 32mm • Rosca M4</p>
-    </div>
+            <div class="meta">
+              <h3>Puxador Otto</h3>
+              <p class="sub">Zamac • Furação 32mm • Rosca M4</p>
+            </div>
 
-    <div class="field">
-      <label>Cores</label>
-      <div class="pills" data-target-img="img-otto" data-product-key="otto">
-        <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
-        <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
-        <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
-        <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-        <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
-        <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tegola</button>
-      </div>
-    </div>
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-otto" data-product-key="otto">
+                <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
+                <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
+                <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
+                <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
+                <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tegola</button>
+              </div>
+            </div>
 
-    <!-- Medidas: só aparece quando clicar -->
-    <details style="border:1px solid var(--line); border-radius:18px; padding:10px 12px; background:#fbfcff;">
-      <summary style="cursor:pointer; font-weight:900; color:#17203a; list-style:none;">
-        Ver medidas
-      </summary>
-      <div style="margin-top:10px;">
-        <img src="assets/otto-med.png" alt="Medidas do Puxador Otto" style="width:100%; height:auto; border-radius:14px; border:1px solid var(--line);">
-      </div>
-    </details>
-  </div>
+            <details style="border:1px solid var(--line); border-radius:18px; padding:10px 12px; background:#fbfcff;">
+              <summary style="cursor:pointer; font-weight:900; color:#17203a; list-style:none;">Ver medidas</summary>
+              <div style="margin-top:10px;">
+                <img src="assets/otto-med.png" alt="Medidas do Puxador Otto" style="width:100%; height:auto; border-radius:14px; border:1px solid var(--line);">
+              </div>
+            </details>
+          </div>
 
-  <div class="card-actions">
-    <button class="btn btn-full btn-primary" onclick="addToCart('otto')">Adicionar ao carrinho</button>
-    <button class="btn btn-full" onclick="quoteNow('otto')">Pedir orçamento</button>
-  </div>
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('otto', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('otto', this)">Pedir orçamento</button>
+          </div>
 
-  <div class="note">
-    <b>Características dos puxadores</b><br>
-    • Pintura 100% epóxi.<br>
-    • Material zamac, furação padrão 32mm e rosca M4.<br>
-    • Durabilidade no acabamento.<br>
-    • Resistência de 150h saltspray (impede a oxidação em regiões litorâneas).
-  </div>
-</article>
+          <div class="note">
+            <b>Características dos puxadores</b><br>
+            • Pintura 100% epóxi.<br>
+            • Material zamac, furação padrão 32mm e rosca M4.<br>
+            • Durabilidade no acabamento.<br>
+            • Resistência de 150h saltspray (impede a oxidação em regiões litorâneas).
+          </div>
+        </article>
 
-<!-- STELO ARCHI -->
-<article class="card" data-kind="puxadores" data-key="steloArchi">
-  <div class="card-top">
-    <div class="media">
-      <img id="img-steloArchi" src="assets/stelo-amb.webp" alt="Puxador Stelo Archi" loading="lazy">
-    </div>
+        <!-- STELO ARCHI -->
+        <article class="card" data-kind="puxadores" data-line="archi" data-key="steloArchi">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-steloArchi" src="assets/stelo-amb.webp" alt="Puxador Stelo Archi" loading="lazy">
+            </div>
 
-    <div class="meta">
-      <h3>Puxador Stelo Archi</h3>
-      <p class="sub">Acabamento anodizado • Para chapas 15mm ou 18mm</p>
-    </div>
+            <div class="meta">
+              <h3>Puxador Stelo Archi</h3>
+              <p class="sub">Acabamento anodizado • Para chapas 15mm ou 18mm</p>
+            </div>
 
-    <div class="row">
-      <div class="field">
-        <label for="stelo-medida">Tamanho</label>
-        <select id="stelo-medida">
-          <option value="96mm (Comp. 115mm)" selected>96mm (Comp. 115mm)</option>
-          <option value="192mm (Comp. 210mm)">192mm (Comp. 210mm)</option>
-        </select>
-      </div>
+            <div class="row">
+              <div class="field">
+                <label for="stelo-medida">Tamanho</label>
+                <select id="stelo-medida">
+                  <option value="96mm (Comp. 115mm)" selected>96mm (Comp. 115mm)</option>
+                  <option value="192mm (Comp. 210mm)">192mm (Comp. 210mm)</option>
+                </select>
+              </div>
 
-      <div class="field">
-        <label for="stelo-chapa">Chapa</label>
-        <select id="stelo-chapa">
-          <option value="15mm" selected>15mm</option>
-          <option value="18mm">18mm</option>
-        </select>
-      </div>
-    </div>
+              <div class="field">
+                <label for="stelo-chapa">Chapa</label>
+                <select id="stelo-chapa">
+                  <option value="15mm" selected>15mm</option>
+                  <option value="18mm">18mm</option>
+                </select>
+              </div>
+            </div>
 
-    <div class="note">
-      * Acabamento anodizado. Disponível nos tamanhos 96mm (comp. 115mm) e 192mm (comp. 210mm).
-    </div>
-  </div>
+            <div class="note">
+              * Acabamento anodizado. Disponível nos tamanhos 96mm (comp. 115mm) e 192mm (comp. 210mm).
+            </div>
+          </div>
 
-  <div class="card-actions">
-    <button class="btn btn-full btn-primary" onclick="addToCart('steloArchi')">Adicionar ao carrinho</button>
-    <button class="btn btn-full" onclick="quoteNow('steloArchi')">Pedir orçamento</button>
-  </div>
-</article>
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('steloArchi', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('steloArchi', this)">Pedir orçamento</button>
+          </div>
+        </article>
 
-<!-- ROMA -->
-<article class="card" data-kind="puxadores" data-key="roma">
-  <div class="card-top">
-    <div class="media">
-      <img id="img-roma" src="assets/roma-amb.jpg" alt="Puxador Roma" loading="lazy">
-    </div>
+        <!-- PONTO (RONDO) -->
+        <article class="card" data-kind="puxadores" data-line="archi" data-key="ponto">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-ponto" src="assets/ponto-amb.jpg" alt="Puxador Ponto Rondo" loading="lazy">
+            </div>
 
-    <div class="meta">
-      <h3>Puxador Roma</h3>
-      <p class="sub">146mm • Pintura eletrostática a pó</p>
-    </div>
+            <div class="meta">
+              <h3>Puxador Ponto (Rondo)</h3>
+              <p class="sub">24mm • Linha Archi</p>
+            </div>
 
-    <div class="row">
-      <div class="field">
-        <label for="roma-chapa">Chapa</label>
-        <select id="roma-chapa">
-          <option value="12mm" selected>12mm</option>
-          <option value="15mm">15mm</option>
-          <option value="18mm">18mm</option>
-        </select>
-      </div>
-    </div>
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-ponto" data-product-key="ponto">
+                <button type="button" class="pill is-active" data-color="cromado">
+                  <span class="swatch" style="background:#d9d9d9"></span>Cromado
+                </button>
+                <button type="button" class="pill" data-color="niquelEscovado">
+                  <span class="swatch" style="background:linear-gradient(90deg,#d9d9d9,#b8b8b8)"></span>Níquel Escovado
+                </button>
+                <button type="button" class="pill" data-color="preto">
+                  <span class="swatch" style="background:#111"></span>Preto
+                </button>
+                <button type="button" class="pill" data-color="cobre">
+                  <span class="swatch" style="background:#b66a43"></span>Cobre
+                </button>
+              </div>
+            </div>
+          </div>
 
-    <div class="field">
-      <label>Cores</label>
-      <div class="pills" data-target-img="img-roma" data-product-key="roma">
-        <button type="button" class="pill is-active" data-color="preto">
-          <span class="swatch" style="background:#111"></span>Preto
-        </button>
-        <button type="button" class="pill" data-color="cinza">
-          <span class="swatch" style="background:#9aa3ad"></span>Cinza
-        </button>
-        <button type="button" class="pill" data-color="inox">
-          <span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox
-        </button>
-        <button type="button" class="pill" data-color="rose">
-          <span class="swatch" style="background:#a4747c"></span>Rose
-        </button>
-      </div>
-    </div>
-  </div>
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('ponto', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('ponto', this)">Pedir orçamento</button>
+          </div>
 
-  <div class="card-actions">
-    <button class="btn btn-full btn-primary" onclick="addToCart('roma')">
-      Adicionar ao carrinho
-    </button>
-    <button class="btn btn-full" onclick="quoteNow('roma')">
-      Pedir orçamento
-    </button>
-  </div>
+          <div class="note">
+            <b>Características</b><br>
+            • Modelo ponto (Rondo)<br>
+            • Diâmetro: 24mm<br>
+            • Linha Archi<br>
+            • Acabamento premium
+          </div>
+        </article>
 
-  <div class="note">
-    <b>Características</b><br>
-    • Comprimento: 146mm<br>
-    • Compatível com chapas de 12mm, 15mm e 18mm<br>
-    • Pintura eletrostática a pó<br>
-    • Alta durabilidade no acabamento
-  </div>
-</article>
+        <!-- ROMA (✅ chapa só informativa) -->
+        <article class="card" data-kind="puxadores" data-line="alternativa" data-key="roma">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-roma" src="assets/roma-amb.jpg" alt="Puxador Roma" loading="lazy">
+            </div>
+
+            <div class="meta">
+              <h3>Puxador Roma</h3>
+              <p class="sub">146mm • Pintura eletrostática a pó</p>
+            </div>
+
+            <div class="note" style="margin-top:10px;">
+              <b>Compatível com chapas:</b> 12mm, 15mm e 18mm.
+            </div>
+
+            <div class="field">
+              <label>Cores</label>
+              <div class="pills" data-target-img="img-roma" data-product-key="roma">
+                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+                <button type="button" class="pill" data-color="rose"><span class="swatch" style="background:#c8a2a8"></span>Rosé</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="addToCart('roma', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('roma', this)">Pedir orçamento</button>
+          </div>
+
+          <div class="note">
+            <b>Características</b><br>
+            • Comprimento: 146mm<br>
+            • Compatível com chapas de 12mm, 15mm e 18mm<br>
+            • Pintura eletrostática a pó<br>
+            • Alta durabilidade no acabamento
+          </div>
+        </article>
 
         <!-- SMART SLIM -->
-        <article class="card" data-kind="puxadores" data-key="smartSlim">
+        <article class="card" data-kind="puxadores" data-line="shop" data-key="smartSlim">
           <div class="card-top">
             <div class="media">
               <img id="img-smartSlim" src="assets/amb-smart.png.jpg" alt="Smart Slim" loading="lazy">
@@ -1200,18 +1176,18 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
                 <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
               </div>
             </div>
+
+            <div class="note">* Slim e Premium podem ser feitos sob encomenda em medidas personalizadas.</div>
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="addToCart('smartSlim')">Adicionar ao carrinho</button>
-            <button class="btn btn-full" onclick="quoteNow('smartSlim')">Pedir orçamento</button>
+            <button class="btn btn-full btn-primary" onclick="addToCart('smartSlim', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('smartSlim', this)">Pedir orçamento</button>
           </div>
-
-          <div class="note">* Slim e Premium podem ser feitos sob encomenda em medidas personalizadas.</div>
         </article>
 
         <!-- SMART PREMIUM -->
-        <article class="card" data-kind="puxadores" data-key="smartPremium">
+        <article class="card" data-kind="puxadores" data-line="shop" data-key="smartPremium">
           <div class="card-top">
             <div class="media">
               <img id="img-smartPremium" src="assets/amb-smart-premium.png.jpg" alt="Smart Premium" loading="lazy">
@@ -1247,18 +1223,18 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
                 <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
+
+            <div class="note">* Inox tem acabamento diferenciado (foto real). Consulte se quiser sob encomenda.</div>
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="addToCart('smartPremium')">Adicionar ao carrinho</button>
-            <button class="btn btn-full" onclick="quoteNow('smartPremium')">Pedir orçamento</button>
+            <button class="btn btn-full btn-primary" onclick="addToCart('smartPremium', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('smartPremium', this)">Pedir orçamento</button>
           </div>
-
-          <div class="note">* Inox tem acabamento diferenciado (foto real). Consulte se quiser sob encomenda.</div>
         </article>
 
         <!-- NEW -->
-        <article class="card" data-kind="puxadores" data-key="new">
+        <article class="card" data-kind="puxadores" data-line="puxe" data-key="new">
           <div class="card-top">
             <div class="media">
               <img id="img-new" src="assets/amb-new.jpg" alt="New" loading="lazy">
@@ -1293,21 +1269,21 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
                 <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
+
+            <div class="note">* Se você tiver fotos do New 5cm por cor, dá pra trocar imagem também pelo tamanho.</div>
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="addToCart('new')">Adicionar ao carrinho</button>
-            <button class="btn btn-full" onclick="quoteNow('new')">Pedir orçamento</button>
+            <button class="btn btn-full btn-primary" onclick="addToCart('new', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('new', this)">Pedir orçamento</button>
           </div>
-
-          <div class="note">* Se você tiver fotos do New 5cm por cor, dá pra trocar imagem também pelo tamanho.</div>
         </article>
 
         <!-- LOG -->
-        <article class="card" data-kind="puxadores" data-key="log">
+        <article class="card" data-kind="puxadores" data-line="puxe" data-key="log">
           <div class="card-top">
             <div class="media">
-              <img id="img-log" src="assets/amb-log.png" alt="LOG 20cm" loading="lazy">
+              <img id="img-log" src="assets/amb-log.png" alt="Log" loading="lazy">
             </div>
 
             <div class="meta">
@@ -1339,70 +1315,55 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
                 <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
+
+            <div class="note">* Log é 20cm. Você escolhe se é para chapa 15mm ou 18mm.</div>
           </div>
 
           <div class="card-actions">
-            <button class="btn btn-full btn-primary" onclick="addToCart('log')">Adicionar ao carrinho</button>
-            <button class="btn btn-full" onclick="quoteNow('log')">Pedir orçamento</button>
+            <button class="btn btn-full btn-primary" onclick="addToCart('log', this)">Adicionar ao carrinho</button>
+            <button class="btn btn-full" onclick="quoteNow('log', this)">Pedir orçamento</button>
           </div>
-
-          <div class="note">* Log é 20cm. Você escolhe se é para chapa 15mm ou 18mm.</div>
         </article>
 
-       <!-- PÉ DE ALUMÍNIO -->
-<article class="card" data-kind="pes" data-key="peAluminio">
-  <div class="card-top">
-    <div class="media">
-      <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
-    </div>
+        <!-- PÉ DE ALUMÍNIO -->
+        <article class="card" data-kind="pes" data-line="shop" data-key="peAluminio">
+          <div class="card-top">
+            <div class="media">
+              <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
+            </div>
 
-    <!-- ✅ Carrossel (TEM que ficar aqui, dentro do card-top) -->
-    <div class="carousel-thumbs" data-target-img="img-peAluminio">
-      <button type="button" class="thumb is-active" data-src="assets/amb-pe.png">
-        <img src="assets/amb-pe.png" alt="">
-      </button>
+            <div class="carousel-thumbs" data-target-img="img-peAluminio">
+              <button type="button" class="thumb is-active" data-src="assets/amb-pe.png"><img src="assets/amb-pe.png" alt=""></button>
+              <button type="button" class="thumb" data-src="assets/pe-aluminio.png.png"><img src="assets/pe-aluminio.png.png" alt=""></button>
+              <button type="button" class="thumb" data-src="assets/pe-do-amb.png"><img src="assets/pe-do-amb.png" alt=""></button>
+              <button type="button" class="thumb" data-src="assets/pe-girando.png"><img src="assets/pe-girando.png" alt=""></button>
+              <button type="button" class="thumb" data-src="assets/pes-dourado.png"><img src="assets/pes-dourado.png" alt=""></button>
+            </div>
 
-      <button type="button" class="thumb" data-src="assets/pe-aluminio.png.png">
-        <img src="assets/pe-aluminio.png.png" alt="">
-      </button>
+            <div class="meta">
+              <h3>Pé de Alumínio</h3>
+              <p class="sub">Sob medida • Com regulagem • Ideal para gabinetes e móveis</p>
+            </div>
 
-      <button type="button" class="thumb" data-src="assets/pe-do-amb.png">
-        <img src="assets/pe-do-amb.png" alt="">
-      </button>
+            <div class="row">
+              <div class="field">
+                <label for="pe-altura">Altura desejada</label>
+                <input id="pe-altura" type="text" placeholder="Ex.: 20cm / 15cm / sob medida">
+              </div>
+              <div class="field">
+                <label for="pe-obs">Uso do móvel</label>
+                <input id="pe-obs" type="text" placeholder="Ex.: gabinete pia / balcão">
+              </div>
+            </div>
 
-      <button type="button" class="thumb" data-src="assets/pe-girando.png">
-        <img src="assets/pe-girando.png" alt="">
-      </button>
+            <div class="note">* Para pés, normalmente é orçamento direto (altura sob medida).</div>
+          </div>
 
-      <button type="button" class="thumb" data-src="assets/pes-dourado.png">
-        <img src="assets/pes-dourado.png" alt="">
-      </button>
-    </div>
-
-    <div class="meta">
-      <h3>Pé de Alumínio</h3>
-      <p class="sub">Sob medida • Com regulagem • Ideal para gabinetes e móveis</p>
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label for="pe-altura">Altura desejada</label>
-        <input id="pe-altura" type="text" placeholder="Ex.: 20cm / 15cm / sob medida">
-      </div>
-      <div class="field">
-        <label for="pe-obs">Uso do móvel</label>
-        <input id="pe-obs" type="text" placeholder="Ex.: gabinete pia / balcão">
-      </div>
-    </div>
-
-    <div class="note">* Para pés, normalmente é orçamento direto (altura sob medida).</div>
-  </div>
-
-  <div class="card-actions">
-    <button class="btn btn-full btn-primary" onclick="quoteNow('peAluminio')">Pedir orçamento pelo WhatsApp</button>
-    <button class="btn btn-full" onclick="openWhatsApp('Olá! Quero saber mais sobre o Pé de Alumínio (sob medida).')">Falar no WhatsApp</button>
-  </div>
-</article>
+          <div class="card-actions">
+            <button class="btn btn-full btn-primary" onclick="quoteNow('peAluminio', this)">Pedir orçamento pelo WhatsApp</button>
+            <button class="btn btn-full" onclick="openWhatsApp('Olá! Quero saber mais sobre o Pé de Alumínio (sob medida).')">Falar no WhatsApp</button>
+          </div>
+        </article>
 
       </div>
     </div>
@@ -1495,35 +1456,25 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
           <summary>Como faço para finalizar a compra?</summary>
           <p>Você monta o pedido no carrinho, informa o CEP e clica em “Finalizar pelo WhatsApp”. A mensagem vai organizada com tudo.</p>
         </details>
-
         <details>
           <summary>Como faço para ver mais fotos dos produtos?</summary>
           <p>Envie uma mensagem no WhatsApp pedindo fotos adicionais do produto desejado.</p>
         </details>
-
         <details>
           <summary>O puxador inox tem a borda pintada?</summary>
           <p>Não, a borda do puxador inox é em acabamento de alumínio.</p>
         </details>
-
         <details>
           <summary>O puxador inox é escovado?</summary>
           <p>Sim, o puxador inox possui acabamento escovado, proporcionando um visual elegante e moderno.</p>
         </details>
-
         <details>
           <summary>Como faço para comprar em grande quantidade?</summary>
           <p>Envie uma mensagem no WhatsApp com a quantidade desejada e o modelo. Faremos um orçamento personalizado para você.</p>
         </details>
-
         <details>
           <summary>Vocês fazem sob medida?</summary>
           <p>Sim! Smart Slim e Smart Premium podem ser sob encomenda em medidas personalizadas. Pés também podem ser sob medida.</p>
-        </details>
-
-        <details>
-          <summary>Como faço para ver fotos do LOG se meu dispositivo não está carregando?</summary>
-          <p>Clique nas cores disponíveis para trocar a imagem do produto e ver o LOG em diferentes acabamentos.</p>
         </details>
       </div>
     </div>
@@ -1594,10 +1545,10 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
         <div>
           <div style="font-weight:900; margin-bottom:8px;">Menu</div>
           <div style="display:grid; gap:6px; font-weight:750; font-size:13px;">
+            <a href="#lancamentos">Lançamentos</a>
             <a href="#produtos">Produtos</a>
-            <a href="#medidas">Medidas</a>
-            <a href="#como-comprar">Como comprar</a>
-            <a href="#faq">FAQ</a>
+            <a href="#quem-somos">Quem somos</a>
+            <a href="#trabalhe-conosco">Trabalhe conosco</a>
             <a href="#contato">Contato</a>
           </div>
         </div>
@@ -1656,7 +1607,7 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
     const WHATSAPP_PHONE = "5543984145858";
     const WHATSAPP_BASE  = "https://api.whatsapp.com/send";
 
-    // ✅ CORRIGIDO: objeto sem quebrar
+    // ====== IMAGENS (cores) ======
     const productImages = {
       aura: {
         inox:  "assets/aura-inox.png",
@@ -1664,31 +1615,38 @@ article[data-key="steloArchi"] .media img[src*="-alt"]{
         cinza: "assets/aura-cinza.png"
       },
       luna: {
-  oro:       "assets/luna-oro.png",
-  nebbio:    "assets/luna-nebbio.png",
-  capuccino: "assets/luna-capuccino.png",
-  preto:     "assets/luna-preto.png",
-  grafite:   "assets/luna-grafite.png",
-  tegola:    "assets/luna-tegola.png"
-},
-otto: {
-  amb:       "assets/otto-amb.png",
-  ouro:      "assets/otto-oro.png",
-  nebbio:    "assets/otto-nebbio.png",
-  capuccino: "assets/otto-capuccino.png",
-  preto:     "assets/otto-preto.png",
-  grafite:   "assets/otto-grafite.png",
-  tegola:    "assets/otto-tegola.png"
-},
-steloArchi: {
-  amb: "assets/stelo-amb.webp"
-},
-roma: {
-  preto: "assets/preto-alt.png",
-  cinza: "assets/cinza-alt.png",
-  inox:  "assets/inox-alt.png",
-  rose:  "assets/rose-alt.webp"
-},
+        oro:       "assets/luna-oro.png",
+        nebbio:    "assets/luna-nebbio.png",
+        capuccino: "assets/luna-capuccino.png",
+        preto:     "assets/luna-preto.png",
+        grafite:   "assets/luna-grafite.png",
+        tegola:    "assets/luna-tegola.png"
+      },
+      otto: {
+        amb:       "assets/otto-amb.png",
+        ouro:      "assets/otto-oro.png",
+        nebbio:    "assets/otto-nebbio.png",
+        capuccino: "assets/otto-capuccino.png",
+        preto:     "assets/otto-preto.png",
+        grafite:   "assets/otto-grafite.png",
+        tegola:    "assets/otto-tegola.png"
+      },
+      steloArchi: { amb: "assets/stelo-amb.webp" },
+
+      // ✅ CORRIGIDO: necs (níquel escovado)
+      ponto: {
+        cromado:        "assets/ponto-cr.jpg",
+        niquelEscovado: "assets/ponto-nqes.png",
+        preto:          "assets/ponto-pr.jpg",
+        cobre:          "assets/ponto-cbr.jpg"
+      },
+
+      roma: {
+        preto: "assets/preto-alt.png",
+        cinza: "assets/cinza-alt.png",
+        inox:  "assets/inox-alt.png",
+        rose:  "assets/rose-alt.webp"
+      },
       smartSlim: {
         preto:   "assets/smartpr.png.jpg",
         cinza:   "assets/smartcz.png.jpg",
@@ -1718,9 +1676,7 @@ roma: {
         dourado: "assets/logdr.png.jpg",
         branco:  "assets/logbr.png.jpg"
       },
-      peAluminio: {
-        branco: "assets/pe-aluminio.png.png"
-      }
+      peAluminio: { branco: "assets/pe-aluminio.png.png" }
     };
 
     const productNames = {
@@ -1728,6 +1684,7 @@ roma: {
       luna: "Puxador Luna",
       otto: "Puxador Otto",
       steloArchi: "Puxador Stelo Archi",
+      ponto: "Puxador Ponto (Rondo)",
       roma: "Puxador Roma",
       smartSlim: "Smart Slim",
       smartPremium: "Smart Premium",
@@ -1752,8 +1709,14 @@ roma: {
       window.open(url, "_blank");
     }
 
-    function getSelectedColor(productKey){
-      const group = document.querySelector(`.card[data-key="${productKey}"] .pills[data-product-key="${productKey}"]`);
+    function getCardElement(productKey, el){
+      if(el && el.closest) return el.closest('.card');
+      return document.querySelector(`.card[data-key="${productKey}"]`);
+    }
+
+    function getSelectedColor(productKey, el){
+      const card = getCardElement(productKey, el);
+      const group = card ? card.querySelector(`.pills[data-product-key="${productKey}"]`) : null;
       const active = group ? group.querySelector(".pill.is-active") : null;
       return active ? active.dataset.color : "preto";
     }
@@ -1761,13 +1724,11 @@ roma: {
     function getProductOptions(productKey){
       const opts = {};
 
-if(productKey === "steloArchi"){
-  opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
-  opts.chapa = $("#stelo-chapa")?.value || "15mm";
-}
-if(productKey === "roma"){
-  opts.chapa = $("#roma-chapa")?.value || "12mm";
-}
+      if(productKey === "steloArchi"){
+        opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
+        opts.chapa = $("#stelo-chapa")?.value || "15mm";
+      }
+
       if(productKey === "smartSlim"){
         opts.medida = $("#slim-medida")?.value || "";
         opts.obs = $("#slim-obs")?.value?.trim() || "";
@@ -1789,12 +1750,14 @@ if(productKey === "roma"){
         opts.uso = $("#pe-obs")?.value?.trim() || "";
       }
 
+      // ✅ ROMA: sem opções de chapa (só informativo)
       return opts;
     }
 
     function formatOptions(productKey, color, opts){
       const parts = [];
       if(color) parts.push(`Cor: ${color}`);
+
       if(productKey === "smartSlim" || productKey === "smartPremium"){
         if(opts.medida) parts.push(`Medida: ${opts.medida}`);
         if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
@@ -1812,180 +1775,179 @@ if(productKey === "roma"){
         if(opts.uso) parts.push(`Uso: ${opts.uso}`);
       }
       if(productKey === "steloArchi"){
-  if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
-  if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
-}
-if(productKey === "roma"){
-  if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
-}
+        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+      }
+
+      // ✅ ROMA removido daqui também
       return parts.join(" • ");
     }
 
-    // ====== COLOR SWITCH (CORRIGIDO) ======
-function setupColorPills(){
-  $$(".pills").forEach(group=>{
-    const imgId = group.dataset.targetImg;
-    const productKey = group.dataset.productKey;
+    // ====== TROCA DE COR (com shimmer + onload) ======
+    function setupColorPills(){
+      $$(".pills").forEach(group=>{
+        const imgId = group.dataset.targetImg;
+        const productKey = group.dataset.productKey;
 
-    group.addEventListener("click", (e)=>{
-      const btn = e.target.closest(".pill");
-      if(!btn) return;
+        group.addEventListener("click", (e)=>{
+          const btn = e.target.closest(".pill");
+          if(!btn) return;
 
-      group.querySelectorAll(".pill").forEach(b=>b.classList.remove("is-active"));
-      btn.classList.add("is-active");
+          group.querySelectorAll(".pill").forEach(b=>b.classList.remove("is-active"));
+          btn.classList.add("is-active");
 
-      const color = btn.dataset.color;
-      const img = document.getElementById(imgId);
-      const src = productImages?.[productKey]?.[color];
+          const color = btn.dataset.color;
+          const img = document.getElementById(imgId);
+          const src = productImages?.[productKey]?.[color];
+          if(!img || !src) return;
 
-      if(!img || !src) return;
+          const box = img.closest(".media");
 
-      const box = img.closest(".media");
+          img.classList.remove("is-loaded");
+          box && box.classList.remove("is-loaded");
 
-      // liga shimmer e esconde a imagem até carregar
-      img.classList.remove("is-loaded");
-      box && box.classList.remove("is-loaded");
+          img.onload = () => {
+            img.classList.add("is-loaded");
+            box && box.classList.add("is-loaded");
+          };
 
-      // reativa o load sempre que trocar o src
-      img.onload = () => {
-        img.classList.add("is-loaded");
-        box && box.classList.add("is-loaded");
-      };
+          img.onerror = () => {
+            console.error("ERRO ao carregar imagem:", src);
+            box && box.classList.add("is-loaded");
+            img.classList.add("is-loaded");
+            const ambientFallback = img.getAttribute("data-ambient-src");
+            if(ambientFallback) img.src = ambientFallback;
+          };
 
-      img.onerror = () => {
-        console.error("ERRO ao carregar imagem:", src);
-        box && box.classList.add("is-loaded");
-
-        // fallback: volta pra ambientada
-        const ambientFallback = img.getAttribute("data-ambient-src");
-        if(ambientFallback) img.src = ambientFallback;
-      };
-
-      img.src = src;
-    });
-  });
-}
-
-// ====== FX DE LOAD (CORRIGIDO) ======
-function setupImageLoadingFX(){
-  document.querySelectorAll(".media img").forEach(img=>{
-    const box = img.closest(".media");
-
-    // guarda a ambientada (pra fallback)
-    if(!img.getAttribute("data-ambient-src")){
-      img.setAttribute("data-ambient-src", img.getAttribute("src") || "");
+          img.src = src;
+        });
+      });
     }
 
-    const done = () => {
-      img.classList.add("is-loaded");
-      box && box.classList.add("is-loaded");
-    };
+    // ====== FX DE LOAD inicial ======
+    function setupImageLoadingFX(){
+      document.querySelectorAll(".media img").forEach(img=>{
+        const box = img.closest(".media");
 
-    img.onload = done;
+        if(!img.getAttribute("data-ambient-src")){
+          img.setAttribute("data-ambient-src", img.getAttribute("src") || "");
+        }
 
-    img.onerror = () => {
-      console.error("ERRO ao carregar imagem inicial:", img.src);
-      box && box.classList.add("is-loaded");
-    };
+        const done = () => {
+          img.classList.add("is-loaded");
+          box && box.classList.add("is-loaded");
+        };
 
-    if (img.complete && img.naturalWidth > 0) done();
-  });
-}
+        img.onload = done;
 
-function setupCarousels(){
-  document.querySelectorAll(".carousel-thumbs").forEach(group=>{
-    const imgId = group.dataset.targetImg;
-    const img = document.getElementById(imgId);
-    if(!img) return;
+        img.onerror = () => {
+          console.error("ERRO ao carregar imagem inicial:", img.src);
+          img.classList.add("is-loaded");
+          box && box.classList.add("is-loaded");
+        };
 
-    group.addEventListener("click", (e)=>{
-      const btn = e.target.closest(".thumb");
-      if(!btn) return;
-
-      const src = btn.dataset.src;
-      if(!src) return;
-
-      group.querySelectorAll(".thumb").forEach(b=>b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-
-      const box = img.closest(".media");
-      img.classList.remove("is-loaded");
-      box && box.classList.remove("is-loaded");
-
-      img.onload = () => {
-        img.classList.add("is-loaded");
-        box && box.classList.add("is-loaded");
-      };
-
-      img.onerror = () => {
-        console.error("ERRO ao carregar imagem do carrossel:", src);
-        box && box.classList.add("is-loaded");
-      };
-
-      img.src = src;
-    });
-  });
-}
-// ====== LUNA MEDIDAS (CORRIGIDO) ======
-function toggleLunaMedidas(){
-  const box = document.getElementById("luna-medidas");
-  const img = document.getElementById("img-luna-md");
-  const btn = document.getElementById("btn-luna-med");
-  if(!box || !img || !btn) return;
-
-  const isOpen = !box.hasAttribute("hidden");
-
-  if(isOpen){
-    box.setAttribute("hidden", "");
-    btn.textContent = "Ver medidas";
-    return;
-  }
-
-  box.removeAttribute("hidden");
-  btn.textContent = "Ocultar medidas";
-
-  // carrega a imagem só na primeira vez
-  if(!img.getAttribute("src")){
-    const src = img.getAttribute("data-src");
-    img.onload = () => {
-      img.classList.add("is-loaded");
-      img.closest(".media")?.classList.add("is-loaded");
-    };
-    img.onerror = () => console.error("ERRO ao carregar:", src);
-    img.setAttribute("src", src);
-
-    // força aparecer mesmo com seu CSS de opacity
-    img.classList.add("is-loaded");
-    img.closest(".media")?.classList.add("is-loaded");
-  }
-}
-
-    // ====== INIT ======
-   document.addEventListener("DOMContentLoaded", ()=>{
-  setupColorPills();
-  setupImageLoadingFX();
-  setupCarousels();
-  loadCart();
-
-  const year = document.getElementById("year");
-  if(year) year.textContent = new Date().getFullYear();
-
-  const cep = document.getElementById("cep");
-  if(cep){
-    cep.addEventListener("input", ()=>{ cep.value = normalizeCep(cep.value); });
-  }
-});
-
-    // ====== FILTER ======
-    function setFilter(kind, btn){
-      $$(".tab").forEach(t=>t.classList.remove("is-active"));
-      btn.classList.add("is-active");
-
-      $$("#productGrid .card").forEach(card=>{
-        if(kind === "all") { card.style.display = ""; return; }
-        const k = card.dataset.kind;
-        card.style.display = (k === kind) ? "" : "none";
+        if(img.complete && img.naturalWidth > 0) done();
       });
+    }
+
+    // ====== CARROSSEL PÉ ======
+    function setupCarousels(){
+      document.querySelectorAll(".carousel-thumbs").forEach(group=>{
+        const imgId = group.dataset.targetImg;
+        const img = document.getElementById(imgId);
+        if(!img) return;
+
+        group.addEventListener("click", (e)=>{
+          const btn = e.target.closest(".thumb");
+          if(!btn) return;
+
+          const src = btn.dataset.src;
+          if(!src) return;
+
+          group.querySelectorAll(".thumb").forEach(b=>b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+
+          const box = img.closest(".media");
+          img.classList.remove("is-loaded");
+          box && box.classList.remove("is-loaded");
+
+          img.onload = () => {
+            img.classList.add("is-loaded");
+            box && box.classList.add("is-loaded");
+          };
+
+          img.onerror = () => {
+            console.error("ERRO ao carregar imagem do carrossel:", src);
+            img.classList.add("is-loaded");
+            box && box.classList.add("is-loaded");
+          };
+
+          img.src = src;
+        });
+      });
+    }
+
+    // ====== LUNA MEDIDAS ======
+    function toggleLunaMedidas(){
+      const box = document.getElementById("luna-medidas");
+      const img = document.getElementById("img-luna-md");
+      const btn = document.getElementById("btn-luna-med");
+      if(!box || !img || !btn) return;
+
+      const isOpen = !box.hasAttribute("hidden");
+
+      if(isOpen){
+        box.setAttribute("hidden", "");
+        btn.textContent = "Ver medidas";
+        return;
+      }
+
+      box.removeAttribute("hidden");
+      btn.textContent = "Ocultar medidas";
+
+      if(!img.getAttribute("src")){
+        const src = img.getAttribute("data-src");
+        img.onload = () => {
+          img.classList.add("is-loaded");
+          img.closest(".media")?.classList.add("is-loaded");
+        };
+        img.onerror = () => {
+          console.error("ERRO ao carregar:", src);
+          img.classList.add("is-loaded");
+          img.closest(".media")?.classList.add("is-loaded");
+        };
+        img.setAttribute("src", src);
+      }
+    }
+
+    // ====== FILTRO (TIPO + LINHA) ======
+    let activeKind = "all";   // all | puxadores | pes
+    let activeLine = "all";   // all | shop | alternativa | archi | puxe
+
+    function applyFilters(){
+      $$("#productGrid .card").forEach(card=>{
+        const k = card.dataset.kind;
+        const l = card.dataset.line || "all";
+
+        const kindOk = (activeKind === "all") || (k === activeKind);
+        const lineOk = (activeLine === "all") || (l === activeLine);
+
+        card.style.display = (kindOk && lineOk) ? "" : "none";
+      });
+    }
+
+    function setFilter(kind, btn){
+      activeKind = kind;
+      $$(".filters .tab[data-filter]").forEach(t=>t.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      applyFilters();
+    }
+
+    function setLineFilter(line, btn){
+      activeLine = line;
+      $$(".filters .tab[data-line-filter]").forEach(t=>t.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      applyFilters();
     }
 
     // ====== CART ======
@@ -1993,9 +1955,8 @@ function toggleLunaMedidas(){
     let cart = [];
 
     function loadCart(){
-      try{
-        cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-      }catch{ cart = []; }
+      try{ cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+      catch{ cart = []; }
       updateCartUI();
     }
 
@@ -2004,12 +1965,12 @@ function toggleLunaMedidas(){
       updateCartUI();
     }
 
-    function addToCart(productKey){
-      const color = getSelectedColor(productKey);
+    function addToCart(productKey, el){
+      const color = getSelectedColor(productKey, el);
       const opts = getProductOptions(productKey);
 
       const item = {
-        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)),
         productKey,
         name: productNames[productKey],
         color,
@@ -2124,9 +2085,9 @@ function toggleLunaMedidas(){
       openWhatsApp(msg);
     }
 
-    // ====== QUICK QUOTE (sem carrinho) ======
-    function quoteNow(productKey){
-      const color = getSelectedColor(productKey);
+    // ====== QUICK QUOTE ======
+    function quoteNow(productKey, el){
+      const color = getSelectedColor(productKey, el);
       const opts = getProductOptions(productKey);
 
       let msg = `Olá! Gostaria de um orçamento para ${productNames[productKey]}.`;
@@ -2141,6 +2102,7 @@ function toggleLunaMedidas(){
       }
 
       msg += `\n\nCor: ${color}`;
+
       if(productKey === "smartSlim" || productKey === "smartPremium"){
         msg += `\nMedida: ${opts.medida || "(informar)"}`
             +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
@@ -2154,84 +2116,76 @@ function toggleLunaMedidas(){
             +  (opts.obs ? `\nObs.: ${opts.obs}` : "");
       }
       if(productKey === "steloArchi"){
-  msg += `\nTamanho: ${opts.tamanho || "(informar)"}`
-      +  `\nChapa: ${opts.chapa || "(informar)"}`;
-}
-if(productKey === "roma"){
-  msg += `\nChapa: ${opts.chapa || "(informar)"}`;
-}
+        msg += `\nTamanho: ${opts.tamanho || "(informar)"}`
+            +  `\nChapa: ${opts.chapa || "(informar)"}`;
+      }
 
+      // ✅ ROMA: não pede chapa aqui (somente cores + quantidade + CEP)
       msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
       openWhatsApp(msg);
     }
-// ====== MENU LATERAL (CORRIGIDO) ======
-(function setupSideMenu(){
-  const menuBtn  = document.getElementById("menuBtn");
-  const closeBtn = document.getElementById("closeBtn");
-  const overlay  = document.getElementById("menuOverlay");
-  const sideMenu = document.getElementById("sideMenu");
 
-  // Se não existir, não quebra o site
-  if(!menuBtn || !overlay || !sideMenu) return;
+    // ====== MENU LATERAL ======
+    (function setupSideMenu(){
+      const menuBtn  = document.getElementById("menuBtn");
+      const closeBtn = document.getElementById("closeBtn");
+      const overlay  = document.getElementById("menuOverlay");
+      const sideMenu = document.getElementById("sideMenu");
 
-  function openMenu(){
-    sideMenu.classList.add("open");
-    overlay.classList.add("open");
-    menuBtn.setAttribute("aria-expanded","true");
-    sideMenu.setAttribute("aria-hidden","false");
-    overlay.setAttribute("aria-hidden","false");
-    document.body.style.overflow = "hidden";
-  }
+      if(!menuBtn || !overlay || !sideMenu) return;
 
-  function closeMenu(){
-    sideMenu.classList.remove("open");
-    overlay.classList.remove("open");
-    menuBtn.setAttribute("aria-expanded","false");
-    sideMenu.setAttribute("aria-hidden","true");
-    overlay.setAttribute("aria-hidden","true");
-    document.body.style.overflow = "";
-  }
+      function openMenu(){
+        sideMenu.classList.add("open");
+        overlay.classList.add("open");
+        menuBtn.setAttribute("aria-expanded","true");
+        sideMenu.setAttribute("aria-hidden","false");
+        overlay.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+      }
 
-  menuBtn.addEventListener("click", openMenu);
-  overlay.addEventListener("click", closeMenu);
-  if(closeBtn) closeBtn.addEventListener("click", closeMenu);
+      function closeMenu(){
+        sideMenu.classList.remove("open");
+        overlay.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded","false");
+        sideMenu.setAttribute("aria-hidden","true");
+        overlay.setAttribute("aria-hidden","true");
+        document.body.style.overflow = "";
+      }
 
-  // Ir para âncoras (sem “trocar seção”)
-  document.querySelectorAll(".menuItem[data-target]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const target = btn.getAttribute("data-target");
-      closeMenu();
-      if(!target) return;
-      document.querySelector(target)?.scrollIntoView({ behavior:"smooth", block:"start" });
+      menuBtn.addEventListener("click", openMenu);
+      overlay.addEventListener("click", closeMenu);
+      if(closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+      document.querySelectorAll(".menuItem[data-target]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const target = btn.getAttribute("data-target");
+          closeMenu();
+          if(!target) return;
+          document.querySelector(target)?.scrollIntoView({ behavior:"smooth", block:"start" });
+        });
+      });
+
+      window.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") closeMenu();
+      });
+    })();
+
+    // ====== INIT ======
+    document.addEventListener("DOMContentLoaded", ()=>{
+      setupColorPills();
+      setupImageLoadingFX();
+      setupCarousels();
+      loadCart();
+      applyFilters();
+
+      const year = document.getElementById("year");
+      if(year) year.textContent = new Date().getFullYear();
+
+      const cep = document.getElementById("cep");
+      if(cep){
+        cep.addEventListener("input", ()=>{ cep.value = normalizeCep(cep.value); });
+      }
     });
-  });
-
-  // Fechar com ESC
-  window.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape") closeMenu();
-  });
-})();
-
-// ====== BLINDAGEM: se alguma imagem falhar, ela aparece mesmo assim ======
-(function safeImages(){
-  document.querySelectorAll(".media img").forEach(img=>{
-    const box = img.closest(".media");
-
-    // Se falhar, não deixa invisível
-    img.addEventListener("error", ()=>{
-      img.classList.add("is-loaded");
-      box && box.classList.add("is-loaded");
-      // opcional: coloca um placeholder leve
-      img.style.opacity = "1";
-    });
-
-    // Se já estiver em cache
-    if(img.complete){
-      img.classList.add("is-loaded");
-      box && box.classList.add("is-loaded");
-    }
-  });
-})();
   </script>
 
 </body>
