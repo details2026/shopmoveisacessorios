@@ -14,11 +14,12 @@
   <link rel="preload" href="assets/amb-log.png" as="image">
   <link rel="preload" href="assets/amb-pe.png" as="image">
   <link rel="preload" href="assets/aura-amb.jpeg" as="image">
+  <link rel="preload" href="assets/aura-dourado.png" as="image">
 
   <style>
     /* Animações */
     @keyframes heroFade{ to{ opacity:1; transform:translateY(0); } }
-    @keyframes logoPop{ to{ opacity:1; transform:scale(1); } }
+    @keyframes shimmer{ 0%{ background-position: 0% 0; } 100%{ background-position: 200% 0; } }
 
     :root{
       --bg:#ffffff;
@@ -46,7 +47,6 @@
     }
     a{color:inherit; text-decoration:none}
     img{max-width:100%; display:block}
-
     .wrap{max-width:1140px; margin:0 auto; padding:0 16px;}
 
     /* Header */
@@ -239,33 +239,6 @@
       flex-direction:column;
     }
     .card-top{ padding:14px; display:grid; gap:10px; }
-
-    /* shimmer */
-    .media{
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:#fff;
-      overflow:hidden;
-      aspect-ratio: 1 / 1;
-      display:grid; place-items:center;
-      position: relative;
-      background: linear-gradient(90deg,#f2f5ff,#ffffff,#f2f5ff);
-      background-size: 200% 100%;
-      animation: shimmer 1.1s infinite linear;
-    }
-    @keyframes shimmer{ 0%{ background-position: 0% 0; } 100%{ background-position: 200% 0; } }
-
-    .media img{
-      width:100%; height:100%; object-fit:contain;
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
-    .media img.is-loaded{ opacity: 1; }
-    .media.is-loaded{
-      animation: none;
-      background: #fff;
-    }
-
     .meta h3{margin:0; font-size:16px; letter-spacing:-.2px}
     .meta .sub{margin:4px 0 0; color:var(--muted); font-weight:700; font-size:13px}
 
@@ -345,14 +318,98 @@
       font-size:11px;
       letter-spacing:.4px;
       box-shadow: 0 14px 35px rgba(0,74,171,.25);
-      z-index:2;
+      z-index:6;
     }
-    .card.is-launch .media{ border-color:#cfe0ff; }
-    .card.is-launch .meta h3{ font-size:17px; }
-    .card.is-launch .note{
-      background:#f7faff;
-      border-top:1px solid #e3edff;
+
+    /* ✅ CARROSSEL DE CORES (arrastar + setas + dots) */
+    .carousel{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      overflow:hidden;
+      aspect-ratio: 1 / 1;
+      position:relative;
+      box-shadow: 0 1px 0 rgba(12,18,32,.03);
     }
+    .track{
+      display:flex;
+      height:100%;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width:none;
+      scroll-behavior:smooth;
+    }
+    .track::-webkit-scrollbar{display:none}
+    .slide{
+      flex:0 0 100%;
+      scroll-snap-align:center;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(90deg,#f2f5ff,#ffffff,#f2f5ff);
+      background-size:200% 100%;
+      animation: shimmer 1.1s infinite linear;
+    }
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      opacity:0;
+      transition: opacity .2s ease;
+    }
+    .slide.is-loaded{ animation:none; background:#fff; }
+    .slide img.is-loaded{ opacity:1; }
+
+    .dots{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:10px;
+      display:flex;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(232,237,246,.9);
+      box-shadow: 0 10px 30px rgba(12,18,32,.08);
+      z-index:5;
+    }
+    .dot{ width:7px; height:7px; border-radius:999px; background:#cbd6ee; cursor:pointer; }
+    .dot.is-active{ background: var(--primary); }
+
+    .dragHint{
+      position:absolute;
+      top:10px; right:10px;
+      background:rgba(12,18,32,.72);
+      color:#fff;
+      font-weight:1000;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      pointer-events:none;
+      z-index:5;
+    }
+
+    .arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      border:1px solid rgba(232,237,246,.9);
+      background:rgba(255,255,255,.92);
+      box-shadow: 0 10px 30px rgba(12,18,32,.08);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      z-index:5;
+      user-select:none;
+    }
+    .arrow:active{ transform:translateY(-50%) scale(.98); }
+    .arrow.prev{ left:10px; }
+    .arrow.next{ right:10px; }
+    .arrow svg{ width:18px; height:18px; }
 
     /* How to buy */
     .steps{ display:grid; gap:12px; }
@@ -515,10 +572,8 @@
       z-index:95;
     }
     .menuOverlay.open{ opacity:1; pointer-events:auto; }
-
-    /* ✅ MENU AGORA ABRE PELA ESQUERDA */
     .sideMenu{
-      position:fixed; top:0; left:0; right:auto;
+      position:fixed; top:0; left:0;
       height:100vh; width:min(360px, 88vw);
       background:#fff; box-shadow: var(--shadow2);
       transform: translateX(-102%); transition: transform .22s ease;
@@ -553,24 +608,7 @@
     .menuSep{ height:1px; background:var(--line); margin:6px 0; }
     .menuGroupTitle{ font-size:12px; color:var(--muted); margin:4px 2px 0; }
 
-    /* LUNA: não cortar / zoom hover só nele */
-    article[data-key="luna"] .media{ overflow:hidden; }
-    article[data-key="luna"] .media img{ transition: transform 0.45s ease; }
-    article[data-key="luna"]:hover .media img{ transform: scale(1.08); }
-
-    .media.media-contain{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .media.media-contain img{
-      width:92%;
-      height:92%;
-      object-fit:contain;
-      background:transparent;
-    }
-
-    /* Carrossel Pé */
+    /* Carrossel Pé (thumbs) */
     .carousel-thumbs{
       display:flex;
       gap:10px;
@@ -604,6 +642,7 @@
     @media (max-width: 768px){
       .hero-photo{ height: 200px; }
       .hero-video{ width:100%; height:100%; object-fit:cover; }
+      .arrow{ display:none; } /* no mobile: swipe já resolve */
     }
     @media (min-width: 860px){
       nav ul{display:flex;}
@@ -648,27 +687,14 @@
 
         <div class="header-actions">
           <button class="btn btn-ghost" onclick="openWhatsApp('Olá! Quero tirar uma dúvida.')" title="Falar no WhatsApp">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
-                <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
-                <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
-              </svg>
-            </span>
             WhatsApp
           </button>
 
           <button class="btn cart-btn" onclick="openCart()" title="Abrir carrinho">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M7 7h14l-1.2 7.2a3 3 0 0 1-3 2.5H9.2a3 3 0 0 1-3-2.4L4.6 3.5H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/>
-              </svg>
-            </span>
             Carrinho
             <span class="badge" id="cartBadge" style="display:none">0</span>
           </button>
 
-          <!-- ✅ BOTAO DO MENU -->
           <button class="btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" title="Menu">⋯</button>
         </div>
       </div>
@@ -710,8 +736,8 @@
         <div>
           <h1>Detalhes que transformam e elevam o padrão do seu móvel</h1>
           <p>
-            Escolha o modelo e a cor. Monte seu pedido no carrinho (com CEP) e finalize pelo WhatsApp.
-            Para itens sob medida, peça orçamento direto.
+            Para ver as cores, <b>arraste a imagem do produto para o lado</b> (tipo Instagram).
+            Você também pode tocar nas cores.
           </p>
 
           <div class="hero-actions">
@@ -767,7 +793,7 @@
       <div class="section-title">
         <div>
           <h2>Lançamentos</h2>
-          <p>Novidades e destaques do momento.</p>
+          <p>Arraste a imagem para ver as cores.</p>
         </div>
       </div>
 
@@ -776,21 +802,48 @@
         <!-- AURA (LANÇAMENTO) -->
         <article class="card is-launch" data-kind="puxadores" data-line="shop" data-key="aura">
           <div class="card-top">
-            <div class="media">
-              <img id="img-aura" src="assets/aura-amb.jpeg" alt="Puxador Aura" loading="lazy">
+
+            <!-- ✅ Carrossel Aura (1ª SEMPRE ambientada) -->
+            <div class="carousel" data-carousel="aura">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/aura-amb.jpeg" alt="Aura Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-preto.png" alt="Aura Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-cinza.png" alt="Aura Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-inox.png" alt="Aura Inox" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-dourado.png" alt="Aura Dourado" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
               <h3>Puxador Aura</h3>
-              <p class="sub">Cores: Inox, Preto e Cinza</p>
+              <p class="sub">Cores: Preto, Cinza, Inox e Dourado</p>
             </div>
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-aura" data-product-key="aura">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              <!-- ✅ pills pulam pro slide certo (sem perder a ambientada) -->
+              <div class="pills" data-product-key="aura">
+                <button type="button" class="pill is-active" data-slide="1" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-slide="2" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-slide="3" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#bdbdbd,#f1f1f1)"></span>Inox</button>
+                <button type="button" class="pill" data-slide="4" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
               </div>
             </div>
           </div>
@@ -865,7 +918,7 @@
       <div class="section-title">
         <div>
           <h2>Nossos produtos</h2>
-          <p>Sem links de plataforma — o objetivo é finalizar com você no WhatsApp.</p>
+          <p>Arraste a imagem para ver as cores (mais fácil e rápido).</p>
         </div>
       </div>
 
@@ -887,24 +940,44 @@
 
       <div class="grid" id="productGrid">
 
-        <!-- AURA (também aqui, com IDs diferentes para não quebrar) -->
+        <!-- AURA (Produtos) -->
         <article class="card is-launch" data-kind="puxadores" data-line="shop" data-key="aura">
           <div class="card-top">
-            <div class="media">
-              <img id="img-aura-prod" src="assets/aura-amb.jpeg" alt="Puxador Aura" loading="lazy">
+            <div class="carousel" data-carousel="aura-prod">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/aura-amb.jpeg" alt="Aura Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-preto.png" alt="Aura Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-cinza.png" alt="Aura Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-inox.png" alt="Aura Inox" loading="lazy"></div>
+                <div class="slide"><img src="assets/aura-dourado.png" alt="Aura Dourado" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
               <h3>Puxador Aura</h3>
-              <p class="sub">Cores: Inox, Preto e Cinza</p>
+              <p class="sub">Cores: Preto, Cinza, Inox e Dourado</p>
             </div>
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-aura-prod" data-product-key="aura">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              <div class="pills" data-product-key="aura-prod">
+                <button type="button" class="pill is-active" data-slide="1" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-slide="2" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-slide="3" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#bdbdbd,#f1f1f1)"></span>Inox</button>
+                <button type="button" class="pill" data-slide="4" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
               </div>
             </div>
           </div>
@@ -913,15 +986,33 @@
             <button class="btn btn-full btn-primary" onclick="addToCart('aura', this)">Adicionar ao carrinho</button>
             <button class="btn btn-full" onclick="quoteNow('aura', this)">Pedir orçamento</button>
           </div>
-
-          <div class="note">Seu grande diferencial está no curvo contínuo de 179 graus, que acompanha perfeitamente a borda do móvel, criando um visual elegante, limpo e moderno.</div>
+          <div class="note">Curvo contínuo de 179° • visual elegante, limpo e moderno.</div>
         </article>
 
-        <!-- LUNA -->
+        <!-- LUNA (sem amb própria -> usando 1ª cor como “capa”; se você mandar uma amb, eu troco) -->
         <article class="card" data-kind="puxadores" data-line="alternativa" data-key="luna">
           <div class="card-top">
-            <div class="media media-contain">
-              <img id="img-luna" src="assets/luna-amb1.jpg" alt="Puxador Luna" loading="lazy">
+            <div class="carousel" data-carousel="luna">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide"><img src="assets/luna-oro.png" alt="Luna Oro" loading="lazy"></div>
+                <div class="slide"><img src="assets/luna-nebbio.png" alt="Luna Nebbio" loading="lazy"></div>
+                <div class="slide"><img src="assets/luna-capuccino.png" alt="Luna Capuccino" loading="lazy"></div>
+                <div class="slide"><img src="assets/luna-preto.png" alt="Luna Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/luna-grafite.png" alt="Luna Grafite" loading="lazy"></div>
+                <div class="slide"><img src="assets/luna-tegola.png" alt="Luna Tegola" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -931,24 +1022,21 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-luna" data-product-key="luna">
-                <button type="button" class="pill is-active" data-color="oro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
-                <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
-                <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#8b6a4f"></span>Capuccino</button>
-                <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#555"></span>Grafite</button>
-                <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b66a43"></span>Tegola</button>
+              <div class="pills" data-product-key="luna">
+                <button type="button" class="pill is-active" data-index="0" data-color="oro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
+                <button type="button" class="pill" data-index="1" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
+                <button type="button" class="pill" data-index="2" data-color="capuccino"><span class="swatch" style="background:#8b6a4f"></span>Capuccino</button>
+                <button type="button" class="pill" data-index="3" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="4" data-color="grafite"><span class="swatch" style="background:#555"></span>Grafite</button>
+                <button type="button" class="pill" data-index="5" data-color="tegola"><span class="swatch" style="background:#b66a43"></span>Tegola</button>
               </div>
             </div>
 
             <!-- Medidas do Luna -->
             <div style="margin-top:10px;">
               <button id="btn-luna-med" type="button" class="btn btn-full" onclick="toggleLunaMedidas()">Ver medidas</button>
-
               <div id="luna-medidas" hidden style="margin-top:10px;">
-                <div class="media media-contain">
-                  <img id="img-luna-md" data-src="assets/luna-md.png" alt="Medidas do Puxador Luna" loading="lazy">
-                </div>
+                <img id="img-luna-md" data-src="assets/luna-md.png" alt="Medidas do Puxador Luna" style="width:100%; height:auto; border-radius:14px; border:1px solid var(--line);" loading="lazy">
               </div>
             </div>
           </div>
@@ -970,8 +1058,27 @@
         <!-- OTTO -->
         <article class="card" data-kind="puxadores" data-line="alternativa" data-key="otto">
           <div class="card-top">
-            <div class="media">
-              <img id="img-otto" src="assets/otto-amb.png" alt="Puxador Otto" loading="lazy">
+            <div class="carousel" data-carousel="otto">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide"><img src="assets/otto-oro.png" alt="Otto Oro" loading="lazy"></div>
+                <div class="slide"><img src="assets/otto-nebbio.png" alt="Otto Nebbio" loading="lazy"></div>
+                <div class="slide"><img src="assets/otto-capuccino.png" alt="Otto Capuccino" loading="lazy"></div>
+                <div class="slide"><img src="assets/otto-preto.png" alt="Otto Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/otto-grafite.png" alt="Otto Grafite" loading="lazy"></div>
+                <div class="slide"><img src="assets/otto-tegola.png" alt="Otto Tegola" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -981,13 +1088,13 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-otto" data-product-key="otto">
-                <button type="button" class="pill is-active" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
-                <button type="button" class="pill" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
-                <button type="button" class="pill" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
-                <button type="button" class="pill" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
-                <button type="button" class="pill" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tegola</button>
+              <div class="pills" data-product-key="otto">
+                <button type="button" class="pill is-active" data-index="0" data-color="ouro"><span class="swatch" style="background:#caa23a"></span>Oro</button>
+                <button type="button" class="pill" data-index="1" data-color="nebbio"><span class="swatch" style="background:#cfcfcf"></span>Nebbio</button>
+                <button type="button" class="pill" data-index="2" data-color="capuccino"><span class="swatch" style="background:#b88b63"></span>Capuccino</button>
+                <button type="button" class="pill" data-index="3" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="4" data-color="grafite"><span class="swatch" style="background:#4b4f57"></span>Grafite</button>
+                <button type="button" class="pill" data-index="5" data-color="tegola"><span class="swatch" style="background:#b86a3d"></span>Tegola</button>
               </div>
             </div>
 
@@ -1016,8 +1123,18 @@
         <!-- STELO ARCHI -->
         <article class="card" data-kind="puxadores" data-line="archi" data-key="steloArchi">
           <div class="card-top">
-            <div class="media">
-              <img id="img-steloArchi" src="assets/stelo-amb.webp" alt="Puxador Stelo Archi" loading="lazy">
+            <div class="carousel" data-carousel="steloArchi">
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide"><img src="assets/stelo-amb.webp" alt="Puxador Stelo Archi" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true"><span class="dot is-active"></span></div>
             </div>
 
             <div class="meta">
@@ -1057,8 +1174,25 @@
         <!-- PONTO (RONDO) -->
         <article class="card" data-kind="puxadores" data-line="archi" data-key="ponto">
           <div class="card-top">
-            <div class="media">
-              <img id="img-ponto" src="assets/ponto-amb.jpg" alt="Puxador Ponto Rondo" loading="lazy">
+            <div class="carousel" data-carousel="ponto">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide"><img src="assets/ponto-cr.jpg" alt="Ponto Cromado" loading="lazy"></div>
+                <div class="slide"><img src="assets/ponto-nqes.png" alt="Ponto Níquel Escovado" loading="lazy"></div>
+                <div class="slide"><img src="assets/ponto-pr.jpg" alt="Ponto Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/ponto-cbr.jpg" alt="Ponto Cobre" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1068,19 +1202,11 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-ponto" data-product-key="ponto">
-                <button type="button" class="pill is-active" data-color="cromado">
-                  <span class="swatch" style="background:#d9d9d9"></span>Cromado
-                </button>
-                <button type="button" class="pill" data-color="niquelEscovado">
-                  <span class="swatch" style="background:linear-gradient(90deg,#d9d9d9,#b8b8b8)"></span>Níquel Escovado
-                </button>
-                <button type="button" class="pill" data-color="preto">
-                  <span class="swatch" style="background:#111"></span>Preto
-                </button>
-                <button type="button" class="pill" data-color="cobre">
-                  <span class="swatch" style="background:#b66a43"></span>Cobre
-                </button>
+              <div class="pills" data-product-key="ponto">
+                <button type="button" class="pill is-active" data-index="0" data-color="cromado"><span class="swatch" style="background:#d9d9d9"></span>Cromado</button>
+                <button type="button" class="pill" data-index="1" data-color="niquelEscovado"><span class="swatch" style="background:linear-gradient(90deg,#d9d9d9,#b8b8b8)"></span>Níquel Escovado</button>
+                <button type="button" class="pill" data-index="2" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="3" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
               </div>
             </div>
           </div>
@@ -1099,11 +1225,28 @@
           </div>
         </article>
 
-        <!-- ROMA (✅ chapa só informativa) -->
+        <!-- ROMA -->
         <article class="card" data-kind="puxadores" data-line="alternativa" data-key="roma">
           <div class="card-top">
-            <div class="media">
-              <img id="img-roma" src="assets/roma-amb.jpg" alt="Puxador Roma" loading="lazy">
+            <div class="carousel" data-carousel="roma">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide"><img src="assets/preto-alt.png" alt="Roma Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/cinza-alt.png" alt="Roma Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/inox-alt.png" alt="Roma Inox" loading="lazy"></div>
+                <div class="slide"><img src="assets/rose-alt.webp" alt="Roma Rosé" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1117,11 +1260,11 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-roma" data-product-key="roma">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
-                <button type="button" class="pill" data-color="rose"><span class="swatch" style="background:#c8a2a8"></span>Rosé</button>
+              <div class="pills" data-product-key="roma">
+                <button type="button" class="pill is-active" data-index="0" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="1" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-index="2" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#bdbdbd,#f1f1f1)"></span>Inox</button>
+                <button type="button" class="pill" data-index="3" data-color="rose"><span class="swatch" style="background:#c8a2a8"></span>Rosé</button>
               </div>
             </div>
           </div>
@@ -1140,11 +1283,31 @@
           </div>
         </article>
 
-        <!-- SMART SLIM -->
+        <!-- SMART SLIM (1ª SEMPRE ambientada) -->
         <article class="card" data-kind="puxadores" data-line="shop" data-key="smartSlim">
           <div class="card-top">
-            <div class="media">
-              <img id="img-smartSlim" src="assets/amb-smart.png.jpg" alt="Smart Slim" loading="lazy">
+            <div class="carousel" data-carousel="smartSlim" data-amb-first="1">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/amb-smart.png.jpg" alt="Smart Slim Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/smartpr.png.jpg" alt="Smart Slim Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/smartcz.png.jpg" alt="Smart Slim Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/smartbr.png.png" alt="Smart Slim Branco" loading="lazy"></div>
+                <div class="slide"><img src="assets/smartdr.png.jpg" alt="Smart Slim Dourado" loading="lazy"></div>
+                <div class="slide"><img src="assets/smartino.png.jpg" alt="Smart Slim Inox" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1168,12 +1331,13 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-smartSlim" data-product-key="smartSlim">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
-                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
-                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
+              <!-- data-index 0..4 -> JS soma +1 porque tem amb primeiro -->
+              <div class="pills" data-product-key="smartSlim">
+                <button type="button" class="pill is-active" data-index="0" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="1" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-index="2" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+                <button type="button" class="pill" data-index="3" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-index="4" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#bdbdbd,#f1f1f1)"></span>Inox</button>
               </div>
             </div>
 
@@ -1186,11 +1350,32 @@
           </div>
         </article>
 
-        <!-- SMART PREMIUM -->
+        <!-- SMART PREMIUM (1ª SEMPRE ambientada) -->
         <article class="card" data-kind="puxadores" data-line="shop" data-key="smartPremium">
           <div class="card-top">
-            <div class="media">
-              <img id="img-smartPremium" src="assets/amb-smart-premium.png.jpg" alt="Smart Premium" loading="lazy">
+            <div class="carousel" data-carousel="smartPremium" data-amb-first="1">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/amb-smart-premium.png.jpg" alt="Smart Premium Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumpr.png.jpeg" alt="Smart Premium Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumino.png.png" alt="Smart Premium Inox" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumdr.png.png" alt="Smart Premium Dourado" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumcbr.png.png" alt="Smart Premium Cobre" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumcz.png.png" alt="Smart Premium Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/smart-premiumbr.png.png" alt="Smart Premium Branco" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1214,13 +1399,14 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-smartPremium" data-product-key="smartPremium">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#75745e,#75745e)"></span>Inox</button>
-                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
-                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              <!-- data-index 0..5 -> JS soma +1 porque tem amb primeiro -->
+              <div class="pills" data-product-key="smartPremium">
+                <button type="button" class="pill is-active" data-index="0" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="1" data-color="inox"><span class="swatch" style="background:linear-gradient(90deg,#bdbdbd,#f1f1f1)"></span>Inox</button>
+                <button type="button" class="pill" data-index="2" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-index="3" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-index="4" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-index="5" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
 
@@ -1233,11 +1419,31 @@
           </div>
         </article>
 
-        <!-- NEW -->
+        <!-- NEW (1ª SEMPRE ambientada) -->
         <article class="card" data-kind="puxadores" data-line="puxe" data-key="new">
           <div class="card-top">
-            <div class="media">
-              <img id="img-new" src="assets/amb-new.jpg" alt="New" loading="lazy">
+            <div class="carousel" data-carousel="new" data-amb-first="1">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/amb-new.jpg" alt="New Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/newpr.png.png" alt="New Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/newdr.png.png" alt="New Dourado" loading="lazy"></div>
+                <div class="slide"><img src="assets/newcbr.png.png" alt="New Cobre" loading="lazy"></div>
+                <div class="slide"><img src="assets/newcz.png.png" alt="New Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/newbr.png.png" alt="New Branco" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1261,12 +1467,12 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-new" data-product-key="new">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
-                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              <div class="pills" data-product-key="new">
+                <button type="button" class="pill is-active" data-index="0" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="1" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-index="2" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-index="3" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-index="4" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
 
@@ -1279,11 +1485,31 @@
           </div>
         </article>
 
-        <!-- LOG -->
+        <!-- LOG (1ª SEMPRE ambientada) -->
         <article class="card" data-kind="puxadores" data-line="puxe" data-key="log">
           <div class="card-top">
-            <div class="media">
-              <img id="img-log" src="assets/amb-log.png" alt="Log" loading="lazy">
+            <div class="carousel" data-carousel="log" data-amb-first="1">
+              <div class="dragHint">Arraste →</div>
+
+              <button class="arrow prev" type="button" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="arrow next" type="button" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div class="track">
+                <div class="slide" data-type="amb"><img src="assets/amb-log.png" alt="Log Ambientada" loading="lazy"></div>
+                <div class="slide"><img src="assets/logpr.png.jpg" alt="Log Preto" loading="lazy"></div>
+                <div class="slide"><img src="assets/log.png.jpg" alt="Log Cinza" loading="lazy"></div>
+                <div class="slide"><img src="assets/logcbr.png.jpg" alt="Log Cobre" loading="lazy"></div>
+                <div class="slide"><img src="assets/logdr.png.jpg" alt="Log Dourado" loading="lazy"></div>
+                <div class="slide"><img src="assets/logbr.png.jpg" alt="Log Branco" loading="lazy"></div>
+              </div>
+
+              <div class="dots" aria-hidden="true">
+                <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              </div>
             </div>
 
             <div class="meta">
@@ -1307,12 +1533,12 @@
 
             <div class="field">
               <label>Cores</label>
-              <div class="pills" data-target-img="img-log" data-product-key="log">
-                <button type="button" class="pill is-active" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
-                <button type="button" class="pill" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
-                <button type="button" class="pill" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
-                <button type="button" class="pill" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
-                <button type="button" class="pill" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
+              <div class="pills" data-product-key="log">
+                <button type="button" class="pill is-active" data-index="0" data-color="preto"><span class="swatch" style="background:#111"></span>Preto</button>
+                <button type="button" class="pill" data-index="1" data-color="cinza"><span class="swatch" style="background:#9aa3ad"></span>Cinza</button>
+                <button type="button" class="pill" data-index="2" data-color="cobre"><span class="swatch" style="background:#b66a43"></span>Cobre</button>
+                <button type="button" class="pill" data-index="3" data-color="dourado"><span class="swatch" style="background:#caa23a"></span>Dourado</button>
+                <button type="button" class="pill" data-index="4" data-color="branco"><span class="swatch" style="background:#f3f3f3"></span>Branco</button>
               </div>
             </div>
 
@@ -1325,11 +1551,14 @@
           </div>
         </article>
 
-        <!-- PÉ DE ALUMÍNIO -->
+        <!-- PÉ DE ALUMÍNIO (thumbs) -->
         <article class="card" data-kind="pes" data-line="shop" data-key="peAluminio">
           <div class="card-top">
-            <div class="media">
-              <img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy">
+            <div class="carousel" data-carousel="peAluminio">
+              <div class="track">
+                <div class="slide"><img id="img-peAluminio" src="assets/amb-pe.png" alt="Pé de Alumínio" loading="lazy"></div>
+              </div>
+              <div class="dots" aria-hidden="true"><span class="dot is-active"></span></div>
             </div>
 
             <div class="carousel-thumbs" data-target-img="img-peAluminio">
@@ -1420,7 +1649,7 @@
           <div class="n">1</div>
           <div>
             <b>Escolha modelo, cor e opção</b>
-            <p>Selecione cor e detalhes (tamanho/chapa/observação) em cada produto.</p>
+            <p>Arraste a imagem para ver as cores e selecione detalhes (tamanho/chapa/observação).</p>
           </div>
         </div>
         <div class="step">
@@ -1457,20 +1686,8 @@
           <p>Você monta o pedido no carrinho, informa o CEP e clica em “Finalizar pelo WhatsApp”. A mensagem vai organizada com tudo.</p>
         </details>
         <details>
-          <summary>Como faço para ver mais fotos dos produtos?</summary>
-          <p>Envie uma mensagem no WhatsApp pedindo fotos adicionais do produto desejado.</p>
-        </details>
-        <details>
-          <summary>O puxador inox tem a borda pintada?</summary>
-          <p>Não, a borda do puxador inox é em acabamento de alumínio.</p>
-        </details>
-        <details>
-          <summary>O puxador inox é escovado?</summary>
-          <p>Sim, o puxador inox possui acabamento escovado, proporcionando um visual elegante e moderno.</p>
-        </details>
-        <details>
-          <summary>Como faço para comprar em grande quantidade?</summary>
-          <p>Envie uma mensagem no WhatsApp com a quantidade desejada e o modelo. Faremos um orçamento personalizado para você.</p>
+          <summary>Como faço para ver as cores?</summary>
+          <p>Arraste a imagem do produto para o lado (como Instagram) ou toque nas cores.</p>
         </details>
         <details>
           <summary>Vocês fazem sob medida?</summary>
@@ -1493,42 +1710,10 @@
       <div class="contact">
         <b>WhatsApp</b>
         <div class="small">Clique para falar com a gente:</div>
-        <button class="btn btn-primary" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="18" height="18" fill="none">
-              <path d="M16 2.5C8.8 2.5 3 8.1 3 15.1c0 2.5.7 4.8 2.1 6.8L3.6 29l7.3-1.9c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.6 13-12.5S23.2 2.5 16 2.5Z" fill="#25D366"/>
-              <path d="M12.9 9.5c-.3-.6-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.5-.3.4-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.4.2.2 2.3 3.6 5.6 4.9 2.7 1.1 3.3.9 3.9.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.3-.6-.5l-1.9-.9c-.2-.1-.5-.2-.8.2-.3.4-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7c.2-.2.2-.4.3-.6.1-.2 0-.4-.1-.6l-.9-2Z" fill="white"/>
-            </svg>
-          </span>
-          Falar no WhatsApp
-        </button>
-
+        <button class="btn btn-primary" onclick="openWhatsApp('Olá! Vim pelo site e quero atendimento.')">Falar no WhatsApp</button>
         <div class="small">
           Dica: use “Pedir orçamento” nos itens sob medida, ou “Adicionar ao carrinho” para montar o pedido.
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INSTAGRAM + FOOTER -->
-  <section class="instagram-cta">
-    <div class="wrap">
-      <div class="contact" style="gap:12px;">
-        <div>
-          <h3 style="margin:0; font-size:18px;">Siga a gente no Instagram</h3>
-          <p style="margin:6px 0 0; color:var(--muted); font-weight:650;">
-            Veja inspirações, lançamentos e aplicações reais dos nossos <strong>puxadores e pés para móveis</strong>.
-          </p>
-        </div>
-        <a
-          href="https://www.instagram.com/shop_moveis_acessorios/"
-          target="_blank"
-          rel="noopener"
-          class="btn btn-primary"
-          style="justify-content:center;"
-        >
-          @shop_moveis_acessorios
-        </a>
       </div>
     </div>
   </section>
@@ -1610,9 +1795,10 @@
     // ====== IMAGENS (cores) ======
     const productImages = {
       aura: {
-        inox:  "assets/aura-inox.png",
-        preto: "assets/aura-preto.png",
-        cinza: "assets/aura-cinza.png"
+        preto:   "assets/aura-preto.png",
+        cinza:   "assets/aura-cinza.png",
+        inox:    "assets/aura-inox.png",
+        dourado: "assets/aura-dourado.png"
       },
       luna: {
         oro:       "assets/luna-oro.png",
@@ -1623,7 +1809,6 @@
         tegola:    "assets/luna-tegola.png"
       },
       otto: {
-        amb:       "assets/otto-amb.png",
         ouro:      "assets/otto-oro.png",
         nebbio:    "assets/otto-nebbio.png",
         capuccino: "assets/otto-capuccino.png",
@@ -1632,15 +1817,12 @@
         tegola:    "assets/otto-tegola.png"
       },
       steloArchi: { amb: "assets/stelo-amb.webp" },
-
-      // ✅ CORRIGIDO: necs (níquel escovado)
       ponto: {
         cromado:        "assets/ponto-cr.jpg",
         niquelEscovado: "assets/ponto-nqes.png",
         preto:          "assets/ponto-pr.jpg",
         cobre:          "assets/ponto-cbr.jpg"
       },
-
       roma: {
         preto: "assets/preto-alt.png",
         cinza: "assets/cinza-alt.png",
@@ -1709,149 +1891,116 @@
       window.open(url, "_blank");
     }
 
-    function getCardElement(productKey, el){
-      if(el && el.closest) return el.closest('.card');
-      return document.querySelector(`.card[data-key="${productKey}"]`);
-    }
+    // ====== CARROSSEL: dots + setas + load FX ======
+    function setupCarousels(){
+      document.querySelectorAll(".carousel").forEach(car=>{
+        const track = car.querySelector(".track");
+        if(!track) return;
 
-    function getSelectedColor(productKey, el){
-      const card = getCardElement(productKey, el);
-      const group = card ? card.querySelector(`.pills[data-product-key="${productKey}"]`) : null;
-      const active = group ? group.querySelector(".pill.is-active") : null;
-      return active ? active.dataset.color : "preto";
-    }
+        const dots  = Array.from(car.querySelectorAll(".dot"));
+        const slides = Array.from(car.querySelectorAll(".slide"));
 
-    function getProductOptions(productKey){
-      const opts = {};
-
-      if(productKey === "steloArchi"){
-        opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
-        opts.chapa = $("#stelo-chapa")?.value || "15mm";
-      }
-
-      if(productKey === "smartSlim"){
-        opts.medida = $("#slim-medida")?.value || "";
-        opts.obs = $("#slim-obs")?.value?.trim() || "";
-      }
-      if(productKey === "smartPremium"){
-        opts.medida = $("#premium-medida")?.value || "";
-        opts.obs = $("#premium-obs")?.value?.trim() || "";
-      }
-      if(productKey === "new"){
-        opts.tamanho = $("#new-medida")?.value || "14cm";
-        opts.obs = $("#new-obs")?.value?.trim() || "";
-      }
-      if(productKey === "log"){
-        opts.chapa = $("#log-chapa")?.value || "18mm";
-        opts.obs = $("#log-obs")?.value?.trim() || "";
-      }
-      if(productKey === "peAluminio"){
-        opts.altura = $("#pe-altura")?.value?.trim() || "";
-        opts.uso = $("#pe-obs")?.value?.trim() || "";
-      }
-
-      // ✅ ROMA: sem opções de chapa (só informativo)
-      return opts;
-    }
-
-    function formatOptions(productKey, color, opts){
-      const parts = [];
-      if(color) parts.push(`Cor: ${color}`);
-
-      if(productKey === "smartSlim" || productKey === "smartPremium"){
-        if(opts.medida) parts.push(`Medida: ${opts.medida}`);
-        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
-      }
-      if(productKey === "new"){
-        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
-        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
-      }
-      if(productKey === "log"){
-        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
-        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
-      }
-      if(productKey === "peAluminio"){
-        if(opts.altura) parts.push(`Altura: ${opts.altura}`);
-        if(opts.uso) parts.push(`Uso: ${opts.uso}`);
-      }
-      if(productKey === "steloArchi"){
-        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
-        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
-      }
-
-      // ✅ ROMA removido daqui também
-      return parts.join(" • ");
-    }
-
-    // ====== TROCA DE COR (com shimmer + onload) ======
-    function setupColorPills(){
-      $$(".pills").forEach(group=>{
-        const imgId = group.dataset.targetImg;
-        const productKey = group.dataset.productKey;
-
-        group.addEventListener("click", (e)=>{
-          const btn = e.target.closest(".pill");
-          if(!btn) return;
-
-          group.querySelectorAll(".pill").forEach(b=>b.classList.remove("is-active"));
-          btn.classList.add("is-active");
-
-          const color = btn.dataset.color;
-          const img = document.getElementById(imgId);
-          const src = productImages?.[productKey]?.[color];
-          if(!img || !src) return;
-
-          const box = img.closest(".media");
-
-          img.classList.remove("is-loaded");
-          box && box.classList.remove("is-loaded");
-
-          img.onload = () => {
+        // Load FX em cada slide
+        slides.forEach(sl=>{
+          const img = sl.querySelector("img");
+          if(!img) return;
+          const done = ()=>{
             img.classList.add("is-loaded");
-            box && box.classList.add("is-loaded");
+            sl.classList.add("is-loaded");
           };
+          img.onload = done;
+          img.onerror = done;
+          if(img.complete && img.naturalWidth > 0) done();
+        });
 
-          img.onerror = () => {
-            console.error("ERRO ao carregar imagem:", src);
-            box && box.classList.add("is-loaded");
-            img.classList.add("is-loaded");
-            const ambientFallback = img.getAttribute("data-ambient-src");
-            if(ambientFallback) img.src = ambientFallback;
-          };
+        const getIndex = ()=> Math.round(track.scrollLeft / track.clientWidth);
+        const goTo = (idx)=> track.scrollTo({ left: idx * track.clientWidth, behavior: "smooth" });
 
-          img.src = src;
+        function setActive(){
+          if(dots.length === 0) return;
+          const i = getIndex();
+          dots.forEach((d, idx)=>d.classList.toggle("is-active", idx === i));
+        }
+
+        track.addEventListener("scroll", ()=>window.requestAnimationFrame(setActive));
+        setActive();
+
+        // Clique nas dots
+        dots.forEach((dot, idx)=>{
+          dot.addEventListener("click", ()=> goTo(idx));
+        });
+
+        // Setas
+        const prev = car.querySelector(".arrow.prev");
+        const next = car.querySelector(".arrow.next");
+        if(prev) prev.addEventListener("click", ()=>{
+          const i = getIndex();
+          goTo(Math.max(0, i-1));
+        });
+        if(next) next.addEventListener("click", ()=>{
+          const i = getIndex();
+          goTo(Math.min(slides.length-1, i+1));
         });
       });
     }
 
-    // ====== FX DE LOAD inicial ======
-    function setupImageLoadingFX(){
-      document.querySelectorAll(".media img").forEach(img=>{
-        const box = img.closest(".media");
+    // ====== PILLS -> rola o carrossel (respeita AMB primeiro) ======
+    function setupPillsToCarousel(){
+      document.querySelectorAll(".pills[data-product-key]").forEach(group=>{
+        const key = group.dataset.productKey;
+        const card = group.closest(".card");
+        if(!card) return;
 
-        if(!img.getAttribute("data-ambient-src")){
-          img.setAttribute("data-ambient-src", img.getAttribute("src") || "");
-        }
+        const car = card.querySelector(`.carousel[data-carousel="${key}"]`) || card.querySelector(".carousel");
+        const track = car ? car.querySelector(".track") : null;
+        const pills = Array.from(group.querySelectorAll(".pill"));
 
-        const done = () => {
-          img.classList.add("is-loaded");
-          box && box.classList.add("is-loaded");
-        };
+        if(!track || pills.length === 0) return;
 
-        img.onload = done;
+        const hasAmbFirst =
+          (car && (car.dataset.ambFirst === "1" || !!car.querySelector('.slide[data-type="amb"]')));
 
-        img.onerror = () => {
-          console.error("ERRO ao carregar imagem inicial:", img.src);
-          img.classList.add("is-loaded");
-          box && box.classList.add("is-loaded");
-        };
+        const goTo = (idx)=> track.scrollTo({ left: idx * track.clientWidth, behavior: "smooth" });
+        const getIndex = ()=> Math.round(track.scrollLeft / track.clientWidth);
 
-        if(img.complete && img.naturalWidth > 0) done();
+        pills.forEach(p=>{
+          p.addEventListener("click", ()=>{
+            pills.forEach(x=>x.classList.remove("is-active"));
+            p.classList.add("is-active");
+
+            let slide;
+            if(p.dataset.slide != null){
+              slide = Number(p.dataset.slide);
+            } else {
+              const idx = Number(p.dataset.index || 0);
+              slide = hasAmbFirst ? (idx + 1) : idx;
+            }
+            if(Number.isFinite(slide)) goTo(slide);
+          });
+        });
+
+        track.addEventListener("scroll", ()=>{
+          const slideIndex = getIndex();
+
+          // Se está na ambientada (slide 0), não mexe na pill ativa
+          if(hasAmbFirst && slideIndex === 0) return;
+
+          const idx = hasAmbFirst ? (slideIndex - 1) : slideIndex;
+
+          // Aura usa data-slide
+          const bySlide = pills.find(p => p.dataset.slide != null && Number(p.dataset.slide) === slideIndex);
+          const byIndex = pills.find(p => p.dataset.index != null && Number(p.dataset.index) === idx);
+
+          const target = bySlide || byIndex;
+          if(!target) return;
+
+          pills.forEach(x=>x.classList.toggle("is-active", x === target));
+        });
       });
     }
 
-    // ====== CARROSSEL PÉ ======
-    function setupCarousels(){
+    // ====== CARROSSEL PÉ (thumbs) ======
+    function setupThumbCarousels(){
       document.querySelectorAll(".carousel-thumbs").forEach(group=>{
         const imgId = group.dataset.targetImg;
         const img = document.getElementById(imgId);
@@ -1867,19 +2016,17 @@
           group.querySelectorAll(".thumb").forEach(b=>b.classList.remove("is-active"));
           btn.classList.add("is-active");
 
-          const box = img.closest(".media");
+          const sl = img.closest(".slide");
           img.classList.remove("is-loaded");
-          box && box.classList.remove("is-loaded");
+          sl && sl.classList.remove("is-loaded");
 
-          img.onload = () => {
+          img.onload = ()=>{
             img.classList.add("is-loaded");
-            box && box.classList.add("is-loaded");
+            sl && sl.classList.add("is-loaded");
           };
-
-          img.onerror = () => {
-            console.error("ERRO ao carregar imagem do carrossel:", src);
+          img.onerror = ()=>{
             img.classList.add("is-loaded");
-            box && box.classList.add("is-loaded");
+            sl && sl.classList.add("is-loaded");
           };
 
           img.src = src;
@@ -1906,17 +2053,7 @@
       btn.textContent = "Ocultar medidas";
 
       if(!img.getAttribute("src")){
-        const src = img.getAttribute("data-src");
-        img.onload = () => {
-          img.classList.add("is-loaded");
-          img.closest(".media")?.classList.add("is-loaded");
-        };
-        img.onerror = () => {
-          console.error("ERRO ao carregar:", src);
-          img.classList.add("is-loaded");
-          img.closest(".media")?.classList.add("is-loaded");
-        };
-        img.setAttribute("src", src);
+        img.setAttribute("src", img.getAttribute("data-src"));
       }
     }
 
@@ -1928,10 +2065,8 @@
       $$("#productGrid .card").forEach(card=>{
         const k = card.dataset.kind;
         const l = card.dataset.line || "all";
-
         const kindOk = (activeKind === "all") || (k === activeKind);
         const lineOk = (activeLine === "all") || (l === activeLine);
-
         card.style.display = (kindOk && lineOk) ? "" : "none";
       });
     }
@@ -1965,6 +2100,69 @@
       updateCartUI();
     }
 
+    function getSelectedColor(productKey, el){
+      const card = el && el.closest ? el.closest(".card") : document.querySelector(`.card[data-key="${productKey}"]`);
+      const group = card ? card.querySelector(`.pills[data-product-key="${productKey}"]`) : null;
+      const active = group ? group.querySelector(".pill.is-active") : null;
+      return active ? active.dataset.color : "preto";
+    }
+
+    function getProductOptions(productKey){
+      const opts = {};
+      if(productKey === "steloArchi"){
+        opts.tamanho = $("#stelo-medida")?.value || "96mm (Comp. 115mm)";
+        opts.chapa = $("#stelo-chapa")?.value || "15mm";
+      }
+      if(productKey === "smartSlim"){
+        opts.medida = $("#slim-medida")?.value || "";
+        opts.obs = $("#slim-obs")?.value?.trim() || "";
+      }
+      if(productKey === "smartPremium"){
+        opts.medida = $("#premium-medida")?.value || "";
+        opts.obs = $("#premium-obs")?.value?.trim() || "";
+      }
+      if(productKey === "new"){
+        opts.tamanho = $("#new-medida")?.value || "14cm";
+        opts.obs = $("#new-obs")?.value?.trim() || "";
+      }
+      if(productKey === "log"){
+        opts.chapa = $("#log-chapa")?.value || "18mm";
+        opts.obs = $("#log-obs")?.value?.trim() || "";
+      }
+      if(productKey === "peAluminio"){
+        opts.altura = $("#pe-altura")?.value?.trim() || "";
+        opts.uso = $("#pe-obs")?.value?.trim() || "";
+      }
+      return opts;
+    }
+
+    function formatOptions(productKey, color, opts){
+      const parts = [];
+      if(color) parts.push(`Cor: ${color}`);
+
+      if(productKey === "smartSlim" || productKey === "smartPremium"){
+        if(opts.medida) parts.push(`Medida: ${opts.medida}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "new"){
+        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "log"){
+        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+        if(opts.obs) parts.push(`Obs.: ${opts.obs}`);
+      }
+      if(productKey === "peAluminio"){
+        if(opts.altura) parts.push(`Altura: ${opts.altura}`);
+        if(opts.uso) parts.push(`Uso: ${opts.uso}`);
+      }
+      if(productKey === "steloArchi"){
+        if(opts.tamanho) parts.push(`Tamanho: ${opts.tamanho}`);
+        if(opts.chapa) parts.push(`Chapa: ${opts.chapa}`);
+      }
+      return parts.join(" • ");
+    }
+
     function addToCart(productKey, el){
       const color = getSelectedColor(productKey, el);
       const opts = getProductOptions(productKey);
@@ -1972,7 +2170,7 @@
       const item = {
         id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)),
         productKey,
-        name: productNames[productKey],
+        name: productNames[productKey] || productKey,
         color,
         options: opts,
         qty: 1
@@ -2081,11 +2279,9 @@
         return;
       }
 
-      const msg = buildWhatsAppOrderMessage(cep);
-      openWhatsApp(msg);
+      openWhatsApp(buildWhatsAppOrderMessage(cep));
     }
 
-    // ====== QUICK QUOTE ======
     function quoteNow(productKey, el){
       const color = getSelectedColor(productKey, el);
       const opts = getProductOptions(productKey);
@@ -2120,7 +2316,6 @@
             +  `\nChapa: ${opts.chapa || "(informar)"}`;
       }
 
-      // ✅ ROMA: não pede chapa aqui (somente cores + quantidade + CEP)
       msg += `\nQuantidade: (informar)\nCEP para entrega: (informar)`;
       openWhatsApp(msg);
     }
@@ -2131,7 +2326,6 @@
       const closeBtn = document.getElementById("closeBtn");
       const overlay  = document.getElementById("menuOverlay");
       const sideMenu = document.getElementById("sideMenu");
-
       if(!menuBtn || !overlay || !sideMenu) return;
 
       function openMenu(){
@@ -2142,7 +2336,6 @@
         overlay.setAttribute("aria-hidden","false");
         document.body.style.overflow = "hidden";
       }
-
       function closeMenu(){
         sideMenu.classList.remove("open");
         overlay.classList.remove("open");
@@ -2154,7 +2347,7 @@
 
       menuBtn.addEventListener("click", openMenu);
       overlay.addEventListener("click", closeMenu);
-      if(closeBtn) closeBtn.addEventListener("click", closeMenu);
+      closeBtn && closeBtn.addEventListener("click", closeMenu);
 
       document.querySelectorAll(".menuItem[data-target]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
@@ -2172,9 +2365,9 @@
 
     // ====== INIT ======
     document.addEventListener("DOMContentLoaded", ()=>{
-      setupColorPills();
-      setupImageLoadingFX();
       setupCarousels();
+      setupPillsToCarousel();
+      setupThumbCarousels();
       loadCart();
       applyFilters();
 
